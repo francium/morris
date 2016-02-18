@@ -32,27 +32,27 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Circle id="nodeONW" fx:id="outterNW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Circle id="nodeON" fx:id="outterN" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Circle id="nodeONE" fx:id="outterNE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nONW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nON" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nONE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
       
-                  <Circle id="nodeINW" fx:id="innerNW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <Circle id="nodeIN" fx:id="innerN" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <Circle id="nodeINE" fx:id="innerNE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nINW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nIN" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nINE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       
-                  <Circle id="nodeOW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <Circle id="nodeIW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nIW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
       
-                  <Circle id="nodeIE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <Circle id="nodeOE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nIE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
       
-                  <Circle id="nodeISW" fx:id="outterSW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                  <Circle id="nodeIS" fx:id="outterS" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                  <Circle id="nodeISE" fx:id="outterSE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nISW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nIS" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nISE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
 
-                  <Circle id="nodeOSW" fx:id="" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <Circle id="nodeOS" fx:id="" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <Circle id="nodeOSE" fx:id="" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOSW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOS" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOSE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
          </children>
@@ -60,22 +60,22 @@
    </center>
    <left>
        <VBox alignment="CENTER" prefWidth="50.0" spacing="20.0" BorderPane.alignment="CENTER">
-           <Circle id="pieceR0" fill="RED" radius="10.0" />
-           <Circle id="pieceR1" fill="RED" radius="10.0" />
-           <Circle id="pieceR2" fill="RED" radius="10.0" />
-           <Circle id="pieceR3" fill="RED" radius="10.0" />
-           <Circle id="pieceR4" fill="RED" radius="10.0" />
-           <Circle id="pieceR5" fill="RED" radius="10.0" />
+           <Circle fx:id="iR0" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
+           <Circle fx:id="iR1" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
+           <Circle fx:id="iR2" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
+           <Circle fx:id="iR3" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
+           <Circle fx:id="iR4" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
+           <Circle fx:id="iR5" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
        </VBox>
    </left>
    <right>
       <VBox alignment="CENTER" prefWidth="50.0" spacing="20.0" BorderPane.alignment="CENTER">
-          <Circle id="pieceB0" fill="BLUE" radius="10.0" />
-          <Circle id="pieceB1" fill="BLUE" radius="10.0" />
-          <Circle id="pieceB2" fill="BLUE" radius="10.0" />
-          <Circle id="pieceB3" fill="BLUE" radius="10.0" />
-          <Circle id="pieceB4" fill="BLUE" radius="10.0" />
-          <Circle id="pieceB5" fill="BLUE" radius="10.0" />
+          <Circle fx:id="iB0" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
+          <Circle fx:id="iB1" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
+          <Circle fx:id="iB2" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
+          <Circle fx:id="iB3" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
+          <Circle fx:id="iB4" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
+          <Circle fx:id="iB5" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
       </VBox>
    </right>
    <bottom>
@@ -95,7 +95,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text id="msgLabel" strokeType="OUTSIDE" strokeWidth="0.0">
+            <Text fx:id="msgLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Press New Game">
                <font>
                   <Font size="16.0" />
                </font>

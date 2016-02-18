@@ -2,12 +2,12 @@ package se2aa4.morris;
 
 public class Frame {
 	
-	private Piece[] inventoryR, inventoryB;
-	private Piece[] nodes;
+	private Node[] inventoryR, inventoryB;
+	private Node[] nodes;
 
 	public Frame() {
-		inventoryB = new Piece[] {Piece.PIECE_R0, Piece.PIECE_R1, Piece.PIECE_R2, Piece.PIECE_R3, Piece.PIECE_R4, Piece.PIECE_R5};
-		inventoryB = new Piece[] {Piece.PIECE_B0, Piece.PIECE_B1, Piece.PIECE_B2, Piece.PIECE_B3, Piece.PIECE_B4, Piece.PIECE_B5};
-		nodes = new Piece[16];
+		inventoryB = new Node[] {Node.iR0, Node.iR1, Node.iR2, Node.iR3, Node.iR4, Node.iR5};
+		inventoryB = new Node[] {Node.iB0, Node.iB1, Node.iB2, Node.iB3, Node.iB4, Node.iB5};
+		nodes = new Node[16];
 	}
 }

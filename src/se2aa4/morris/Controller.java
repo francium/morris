@@ -13,6 +13,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
+// test
+
 public class Controller implements Initializable {
 
 	private Game game = new Game();

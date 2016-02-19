@@ -32,27 +32,27 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Circle fx:id="nONW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nON" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nONE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nONW" radius="8.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nON" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nONE" radius="8.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
       
-                  <Circle fx:id="nINW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nIN" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nINE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nINW" radius="8.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nIN" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nINE" radius="8.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
       
-                  <Circle fx:id="nOW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nIW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOW" radius="8.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nIW" radius="8.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
       
-                  <Circle fx:id="nIE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nOE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nIE" radius="8.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nOE" radius="8.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
       
-                  <Circle fx:id="nISW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nIS" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nISE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nISW" radius="8.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nIS" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nISE" radius="8.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
 
-                  <Circle fx:id="nOSW" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nOS" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <Circle fx:id="nOSE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOSW" radius="8.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nOS" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nOSE" radius="8.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
                </children>
             </GridPane>
          </children>

@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
@@ -19,6 +20,7 @@ public class Controller implements Initializable {
 	
 	private Paint COLRED = Paint.valueOf("#ff0000"),
 				  COLBLUE = Paint.valueOf("#0000ff"),
+				  COLBLACK = Paint.valueOf("#000000"),
 				  COLGREEN = Paint.valueOf("#00ff00");
 	
 	@FXML
@@ -54,73 +56,104 @@ public class Controller implements Initializable {
 		Node node = Node.valueOf(nodeId);
 
 		if (node != game.getSelected()) resetNodeFill(game.getSelected());
-
+		
 		if (node.getId().contains("i")) {
 			if (node.getId().contains("R") && game.getWhosTurn() == Player.RED) {
 				game.setSelected(node);
-				changeNodeFill(node, COLGREEN);
+				changeNodeFill(getShape(node), COLGREEN);
 			} else if (node.getId().contains("B") && game.getWhosTurn() == Player.BLUE) {
 				game.setSelected(node);
-				changeNodeFill(node, COLGREEN);
-			} else {
-				// clicked other players piece
+				changeNodeFill(getShape(node), COLGREEN);
 			}
-			
-			// if frame node clicked
+		} else {
+			if (game.getSelected() != Node.NONODE) {
+				getShape(game.getSelected()).setVisible(false);
+				Shape shape = getShape(node);
+				((Circle)shape).setRadius(10);
+				if (game.getWhosTurn() == Player.RED) changeNodeFill(shape, COLRED);
+				else changeNodeFill(shape, COLBLUE);
+			}
 		}
 		msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
+		System.out.println(game.getSelected());
 	}
 	
-	private void resetNodeFill(Node node) {
-		if (node == Node.NONODE) return;
-		if (node.getId().contains("R")) changeNodeFill(node, COLRED);
-		else changeNodeFill(node, COLBLUE);
-	}
-	
-	private void changeNodeFill(Node node, Paint paint) {
+	private Shape getShape(Node node) {
 		switch (node.getId()) {
 			case ("iR0"):
-				iR0.setFill(paint);
-				break;
+				return iR0;
 			case ("iR1"):
-				iR1.setFill(paint);
-				break;
+				return iR1;
 			case ("iR2"):
-				iR2.setFill(paint);
-				break;
+				return iR2;
 			case ("iR3"):
-				iR3.setFill(paint);
-				break;
+				return iR3;
 			case ("iR4"):
-				iR4.setFill(paint);
-				break;
+				return iR4;
 			case ("iR5"):
-				iR5.setFill(paint);
-				break;
+				return iR5;
 			case ("iB0"):
-				iB0.setFill(paint);
-				break;
+				return iB0;
 			case ("iB1"):
-				iB1.setFill(paint);
-				break;
+				return iB1;
 			case ("iB2"):
-				iB2.setFill(paint);
-				break;
+				return iB2;
 			case ("iB3"):
-				iB3.setFill(paint);
-				break;
+				return iB3;
 			case ("iB4"):
-				iB4.setFill(paint);
-				break;
+				return iB4;
 			case ("iB5"):
-				iB5.setFill(paint);
-				break;
+				return iB5;
+			case ("nONW"):
+				return nONW;
+			case ("nON"):
+				return nON;
+			case ("nONE"):
+				return nONE;
+			case ("nOE"):
+				return nOE;
+			case ("nOSE"):
+				return nOSE;
+			case ("nOS"):
+				return nOS;
+			case ("nOSW"):
+				return nOSW;
+			case ("nOW"):
+				return nOW;
+			case ("nINW"):
+				return nINW;
+			case ("nIN"):
+				return nIN;
+			case ("nINE"):
+				return nINE;
+			case ("nIE"):
+				return nIE;
+			case ("nISE"):
+				return nISE;
+			case ("nIS"):
+				return nIS;
+			case ("nISW"):
+				return nISW;
+			case ("nIW"):
+				return nIW;
+			default:
+				return null;
 		}
+	}
+
+	private void resetNodeFill(Node node) {
+		if (node == Node.NONODE) return;
+		if (node.getId().contains("R")) changeNodeFill(getShape(node), COLRED);
+		else if (node.getId().contains("B")) changeNodeFill(getShape(node), COLBLUE);
+		else changeNodeFill(getShape(node), COLBLACK);
+	}
+	
+	private void changeNodeFill(Shape shape, Paint paint) {
+		shape.setFill(paint);
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		
 	}
 }

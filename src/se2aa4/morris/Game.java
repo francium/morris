@@ -1,5 +1,5 @@
 package se2aa4.morris;
-
+//
 public class Game {
 
 	private boolean started;

@@ -31,7 +31,7 @@ public class Controller implements Initializable {
 	
 	@FXML
 	private Text msgLabel;
-	
+		
 	@FXML
 	private void processNewGame(ActionEvent event) {
 		resetNodeFill(game.getSelected());
@@ -41,11 +41,17 @@ public class Controller implements Initializable {
 	
 	@FXML
 	private void processEndTurn(ActionEvent event) {
-		System.out.println("EndTurn");
+		System.out.println("endTurn ...");
+		if (game.getIsMoveMade() && game.getIsValid()) {
+			game.endTurn();
+			System.out.println("EndTurn");
+		}
+		msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
 	}
 	
 	@FXML
 	private void processRestore(ActionEvent event) {
+		game.restore();
 		System.out.println("Restore");
 	}
 	
@@ -72,10 +78,27 @@ public class Controller implements Initializable {
 				((Circle)shape).setRadius(10);
 				if (game.getWhosTurn() == Player.RED) changeNodeFill(shape, COLRED);
 				else changeNodeFill(shape, COLBLUE);
+				game.move(node);
 			}
 		}
 		msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
-		System.out.println(game.getSelected());
+		//System.out.println(game.getSelected());
+	}
+
+	private void resetNodeFill(Node node) {
+		if (node == Node.NONODE) return;
+		if (node.getId().contains("R")) changeNodeFill(getShape(node), COLRED);
+		else if (node.getId().contains("B")) changeNodeFill(getShape(node), COLBLUE);
+		else changeNodeFill(getShape(node), COLBLACK);
+	}
+	
+	private void changeNodeFill(Shape shape, Paint paint) {
+		shape.setFill(paint);
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
 	}
 	
 	private Shape getShape(Node node) {
@@ -140,20 +163,5 @@ public class Controller implements Initializable {
 				return null;
 		}
 	}
-
-	private void resetNodeFill(Node node) {
-		if (node == Node.NONODE) return;
-		if (node.getId().contains("R")) changeNodeFill(getShape(node), COLRED);
-		else if (node.getId().contains("B")) changeNodeFill(getShape(node), COLBLUE);
-		else changeNodeFill(getShape(node), COLBLACK);
-	}
 	
-	private void changeNodeFill(Shape shape, Paint paint) {
-		shape.setFill(paint);
-	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-	}
 }

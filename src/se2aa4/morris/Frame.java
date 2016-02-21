@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 public class Frame {
 	
-	private ArrayList<Node> inventoryR, inventoryB, nodes;
+	private ArrayList<Node> inventoryR, inventoryB, nodes,
+							inventoryRCopy, inventoryBCopy, nodesCopy;
+	
+	private boolean isValid;
 
 	public Frame() {
+		isValid = true;
 		inventoryR = new ArrayList<Node>(6);
 		inventoryR.add(Node.iR0);
 		inventoryR.add(Node.iR1);
@@ -26,6 +30,8 @@ public class Frame {
 		nodes = new ArrayList<Node>(16);
 	}
 	
+	public boolean getIsValid() { return isValid; }
+	
 	public void move(Node node, Node there) {
 		if (node.getId().contains("R")) {
 			inventoryR.remove(node);
@@ -34,5 +40,17 @@ public class Frame {
 			inventoryB.remove(node);
 			nodes.add(node);
 		}
+	}
+	
+	public void createRestorePoint() {
+		inventoryRCopy = (ArrayList) inventoryR.clone();
+		inventoryBCopy = (ArrayList) inventoryB.clone();
+		nodesCopy = (ArrayList) nodes.clone();
+	}
+	
+	public void restore() {
+		inventoryR = (ArrayList) inventoryRCopy.clone();
+		inventoryB = (ArrayList) inventoryBCopy.clone();
+		nodes = (ArrayList) nodesCopy.clone();
 	}
 }

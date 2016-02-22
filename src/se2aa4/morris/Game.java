@@ -9,7 +9,7 @@ public class Game {
 	private Node selected;
 	private Frame frame;
 	private Node lastMove;
-	
+
 	public Game() {
 		started = false;
 		randTurn();
@@ -17,11 +17,11 @@ public class Game {
 		areMultipleMovesMade = false;
 		selected = Node.NONODE;
 	}
-	
+
 	private void randTurn() {
 		whosTurn = Math.random() > 0.5 ? Player.RED : Player.BLUE;
 	}
-	
+
 	private void nextTurn() {
 		if (whosTurn == Player.RED) whosTurn = Player.BLUE;
 		else whosTurn = Player.RED;
@@ -34,9 +34,9 @@ public class Game {
 	public Node getSelected() { return selected; }
 
 	public void setSelected(Node node) { selected = node; }
-	
+
 	public boolean getIsMoveMade() { return isMoveMade; }
-	
+
 	public boolean getIsValid() { return frame.getIsValid(); }
 
 	public Node getInvalidNode() { return frame.getInvalidNode(); }
@@ -57,7 +57,7 @@ public class Game {
 		isMoveMade = false;
 		frame = new Frame();
 	}
-	
+
 	public void endTurn() {
 		nextTurn();
 		selected = Node.NONODE;
@@ -65,7 +65,7 @@ public class Game {
 		isMoveMade = false;
 		frame.createRestorePoint();
 	}
-	
+
 	public void move(Node there) {
 		if (isMoveMade) {
 			lastMove = there;
@@ -75,10 +75,10 @@ public class Game {
 		frame.move(selected, there);
 		selected = Node.NONODE;
 	}
-	
+
 	public void restore() {
 		selected = Node.NONODE;
 		frame.restore();
 	}
-	
+
 }

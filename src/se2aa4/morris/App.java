@@ -8,6 +8,11 @@ import javafx.stage.Stage;
 
 public class App extends Application{
 
+    /**
+     * Start point of javafx application
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root =  FXMLLoader.load(getClass().getResource("UI.fxml"));
@@ -16,6 +21,10 @@ public class App extends Application{
         primaryStage.show();
     }
 
+    /**
+     * Fail-safe for environments without javafx support
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }

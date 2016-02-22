@@ -82,8 +82,8 @@
       <HBox alignment="CENTER" prefHeight="40.0" spacing="70.0" BorderPane.alignment="CENTER">
          <children>
             <Button minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="New Game" textAlignment="CENTER" onAction="#processNewGame" />
-            <Button minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Restore" textAlignment="CENTER" onAction="#processRestore" />
-            <Button minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="End Turn" textAlignment="CENTER" onAction="#processEndTurn" />
+            <!--<Button minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Restore" textAlignment="CENTER" onAction="#processRestore" />-->
+            <Button fx:id="endTurnButton" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="End Turn" textAlignment="CENTER" onAction="#processEndTurn" />
          </children>
       </HBox>
    </bottom>

@@ -3,8 +3,6 @@ package se2aa4.morris;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,7 +21,7 @@ public class Controller implements Initializable {
 				  COLBLUE = Paint.valueOf("#0000ff"),
 				  COLBLACK = Paint.valueOf("#000000"),
 				  COLGREEN = Paint.valueOf("#00ff00"),
-				  COLPINK = Paint.valueOf("#f4de00");
+				  COLYELLOW = Paint.valueOf("#f4de00");
 
 	@FXML
 	private Button endTurnButton;
@@ -37,9 +35,12 @@ public class Controller implements Initializable {
 	@FXML
 	private Text msgLabel;
 
+	/**
+	 * initialize ui
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+		// unused, but required
 	}
 
 	@FXML
@@ -75,11 +76,11 @@ public class Controller implements Initializable {
 			}
 			else if (game.getAreMultipleMovesMade()) {
 				// multiple moves
-				changeNodeFill(getShape(game.getLastMove()), COLPINK);
+				changeNodeFill(getShape(game.getLastMove()), COLYELLOW);
 				msgLabel.setText(msgLabel.getText() + " | Multiple moves");
 			} else {
 				// overlapping pieces
-				changeNodeFill(getShape(game.getInvalidNode()), COLPINK);
+				changeNodeFill(getShape(game.getInvalidNode()), COLYELLOW);
 				msgLabel.setText(msgLabel.getText() + " | Overlapping Pieces");
 			}
 			endTurnButton.setDisable(true);
@@ -130,7 +131,7 @@ public class Controller implements Initializable {
 	private void resetNodeRadius(Node node) {
 		((Circle)getShape(node)).setRadius(8);
 	}
-	
+
 	private void changeNodeFill(Shape shape, Paint paint) {
 		shape.setFill(paint);
 	}
@@ -197,5 +198,5 @@ public class Controller implements Initializable {
 				return null;
 		}
 	}
-	
+
 }

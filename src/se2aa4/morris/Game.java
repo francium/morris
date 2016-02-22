@@ -73,6 +73,7 @@ public class Game {
 		}
 		isMoveMade = true;
 		frame.move(selected, there);
+		selected = Node.NONODE;
 	}
 	
 	public void restore() {

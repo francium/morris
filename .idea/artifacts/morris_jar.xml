@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="morris:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/morris_jar</output-path>
+    <root id="archive" name="morris.jar">
+      <element id="module-output" name="morris" />
+    </root>
+  </artifact>
+</component>

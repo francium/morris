@@ -8,6 +8,7 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -23,6 +24,9 @@ public class Controller implements Initializable {
 				  COLBLACK = Paint.valueOf("#000000"),
 				  COLGREEN = Paint.valueOf("#00ff00"),
 				  COLPINK = Paint.valueOf("#f4de00");
+
+	@FXML
+	private Button endTurnButton;
 
 	@FXML
 	private Shape iR0, iR1, iR2, iR3, iR4, iR5,
@@ -42,6 +46,7 @@ public class Controller implements Initializable {
 	private void processNewGame(ActionEvent event) {
 		resetNodeFill(game.getSelected());
 		game.newGame();
+		endTurnButton.setDisable(false);
 		for (Node n: Node.values()) {
 			// clear frame
 			if (n != Node.NONODE && n != Node.INVALID) {
@@ -57,17 +62,27 @@ public class Controller implements Initializable {
 	private void processEndTurn(ActionEvent event) {
 		if (game.getIsMoveMade() && game.getIsValid()
 				  && !game.getAreMultipleMovesMade()) {
+			if (game.getSelected() != Node.NONODE) {
+				resetNodeFill(game.getSelected());
+			}
 			game.endTurn();
 			msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
 		} else {
 			// TODO different errors
-			if (game.getAreMultipleMovesMade()) {
+			if (!game.getIsMoveMade()) {
+				// no moves made
+				msgLabel.setText(msgLabel.getText() + " | No moves made");
+			}
+			else if (game.getAreMultipleMovesMade()) {
+				// multiple moves
 				changeNodeFill(getShape(game.getLastMove()), COLPINK);
 				msgLabel.setText(msgLabel.getText() + " | Multiple moves");
 			} else {
+				// overlapping pieces
 				changeNodeFill(getShape(game.getInvalidNode()), COLPINK);
-				msgLabel.setText(msgLabel.getText() + " | Invalid Frame");
+				msgLabel.setText(msgLabel.getText() + " | Overlapping Pieces");
 			}
+			endTurnButton.setDisable(true);
 		}
 	}
 

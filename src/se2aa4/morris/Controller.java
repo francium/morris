@@ -17,44 +17,65 @@ import javafx.scene.text.Text;
 public class Controller implements Initializable {
 
 	private Game game = new Game();
-	
+
 	private Paint COLRED = Paint.valueOf("#ff0000"),
 				  COLBLUE = Paint.valueOf("#0000ff"),
 				  COLBLACK = Paint.valueOf("#000000"),
-				  COLGREEN = Paint.valueOf("#00ff00");
-	
+				  COLGREEN = Paint.valueOf("#00ff00"),
+				  COLPINK = Paint.valueOf("#f4de00");
+
 	@FXML
 	private Shape iR0, iR1, iR2, iR3, iR4, iR5,
 				  iB0, iB1, iB2, iB3, iB4, iB5,
 				  nONW, nON, nONE, nOE, nOSE, nOS, nOSW, nOW,
 				  nINW, nIN, nINE, nIE, nISE, nIS, nISW, nIW;
-	
+
 	@FXML
 	private Text msgLabel;
-		
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+	}
+
 	@FXML
 	private void processNewGame(ActionEvent event) {
 		resetNodeFill(game.getSelected());
 		game.newGame();
-		msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
-	}
-	
-	@FXML
-	private void processEndTurn(ActionEvent event) {
-		System.out.println("endTurn ...");
-		if (game.getIsMoveMade() && game.getIsValid()) {
-			game.endTurn();
-			System.out.println("EndTurn");
+		for (Node n: Node.values()) {
+			// clear frame
+			if (n != Node.NONODE && n != Node.INVALID) {
+				resetNodeFill(n);
+				if (n.getId().contains("n")) resetNodeRadius(n);
+				if (!getShape(n).isVisible()) getShape(n).setVisible(true);
+			}
 		}
 		msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
 	}
-	
+
+	@FXML
+	private void processEndTurn(ActionEvent event) {
+		if (game.getIsMoveMade() && game.getIsValid()
+				  && !game.getAreMultipleMovesMade()) {
+			game.endTurn();
+			msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
+		} else {
+			// TODO different errors
+			if (game.getAreMultipleMovesMade()) {
+				changeNodeFill(getShape(game.getLastMove()), COLPINK);
+				msgLabel.setText(msgLabel.getText() + " | Multiple moves");
+			} else {
+				changeNodeFill(getShape(game.getInvalidNode()), COLPINK);
+				msgLabel.setText(msgLabel.getText() + " | Invalid Frame");
+			}
+		}
+	}
+
 	@FXML
 	private void processRestore(ActionEvent event) {
 		game.restore();
-		System.out.println("Restore");
 	}
-	
+
 	@FXML
 	private void processNodeClick(MouseEvent event) {
 		if (!game.isStarted()) return;
@@ -62,7 +83,7 @@ public class Controller implements Initializable {
 		Node node = Node.valueOf(nodeId);
 
 		if (node != game.getSelected()) resetNodeFill(game.getSelected());
-		
+
 		if (node.getId().contains("i")) {
 			if (node.getId().contains("R") && game.getWhosTurn() == Player.RED) {
 				game.setSelected(node);
@@ -82,7 +103,6 @@ public class Controller implements Initializable {
 			}
 		}
 		msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
-		//System.out.println(game.getSelected());
 	}
 
 	private void resetNodeFill(Node node) {
@@ -91,16 +111,15 @@ public class Controller implements Initializable {
 		else if (node.getId().contains("B")) changeNodeFill(getShape(node), COLBLUE);
 		else changeNodeFill(getShape(node), COLBLACK);
 	}
+
+	private void resetNodeRadius(Node node) {
+		((Circle)getShape(node)).setRadius(8);
+	}
 	
 	private void changeNodeFill(Shape shape, Paint paint) {
 		shape.setFill(paint);
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-	}
-	
 	private Shape getShape(Node node) {
 		switch (node.getId()) {
 			case ("iR0"):

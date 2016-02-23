@@ -1,5 +1,12 @@
 package se2aa4.morris;
 
+/**
+ * Enumerator of Nodes (and Pieces)
+ * @author Varun Hooda 001419242
+ * @author Aushim Lakhana 001201528
+ * @author Matthew Shortt 001417616
+ * @version 1.0
+ */
 public enum Node {
 	NONODE("noNode"), INVALID("invalid"),
 	iR0("iR0"), iR1("iR1"), iR2("iR2"), iR3("iR3"), iR4("iR4"), iR5("iR5"),

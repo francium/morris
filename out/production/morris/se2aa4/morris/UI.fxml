@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- UI markup and layout (view)
+     Defines the view in fxml
+     Created using JavaFX Scene Builder
+     @author Varun Hooda 001412942
+     @author Aushim Lakhana 001201528
+     @author Matthew Shortt 001417616
+     @version 1.0 -->
 
 <?import javafx.scene.shape.*?>
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>

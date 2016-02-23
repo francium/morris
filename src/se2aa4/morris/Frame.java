@@ -1,9 +1,18 @@
 package se2aa4.morris;
 
+/**
+ * Frame (model subclass)
+ * Stores state of the frame
+ * @author Varun Hooda 001412942
+ * @author Aushim Lakhana 001201528
+ * @author Matthew Shortt 001417616
+ * @version 1.0
+ */
 public class Frame {
 
+	// data structure
 	private Node[] nodes, nodesCopy;
-	
+
 	private boolean isValid;
 	private Node invalidNode;
 
@@ -39,10 +48,12 @@ public class Frame {
      */
 	public Node[] getNodes() {
 		int c=0;
+		// get number of pieces on frame
 		for (int i=0; i<nodes.length; i++) {
 			if (nodes[i] != Node.NONODE) c++;
 		}
 		Node[] filledNodes = new Node[c];
+		// copy pieces into an array
 		for (int i=0, j=0; i<nodes.length; i++) {
 			if (nodes[i] != Node.NONODE) filledNodes[j++] = nodes[i];
 		}
@@ -80,6 +91,7 @@ public class Frame {
 		nodes = clone(nodesCopy);
 	}
 
+	// clone an array of type Node
 	private static Node[] clone(Node[] array) {
 		Node[] arrayCopy = new Node[array.length];
 		for (int i=0; i<array.length;i++) {

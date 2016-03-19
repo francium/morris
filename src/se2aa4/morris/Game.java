@@ -1,5 +1,8 @@
 package se2aa4.morris;
 
+import se2aa4.morris.enums.Node;
+import se2aa4.morris.enums.Player;
+
 /**
  * Game class (model)
  * Stores game state
@@ -11,7 +14,7 @@ package se2aa4.morris;
 public class Game {
 
 	private boolean started;
-	private Player whosTurn;
+	private Player whoseTurn;
 	private boolean isMoveMade;
 	private boolean areMultipleMovesMade;
 	private Node selected;
@@ -29,15 +32,19 @@ public class Game {
 		selected = Node.NONODE;
 	}
 
-	// random player's turn
+    /**
+     * set to random player's turn
+     */
 	private void randTurn() {
-		whosTurn = Math.random() > 0.5 ? Player.RED : Player.BLUE;
+		whoseTurn = Math.random() > 0.5 ? Player.RED : Player.BLUE;
 	}
 
-	// next player's turn
+    /**
+     * set to next player's turn
+     */
 	private void nextTurn() {
-		if (whosTurn == Player.RED) whosTurn = Player.BLUE;
-		else whosTurn = Player.RED;
+		if (whoseTurn == Player.RED) whoseTurn = Player.BLUE;
+		else whoseTurn = Player.RED;
 	}
 
 	/**
@@ -50,7 +57,7 @@ public class Game {
 	 * who's turn is it
 	 * @return who's turn
      */
-	public Player getWhosTurn() { return whosTurn; }
+	public Player getWhoseTurn() { return whoseTurn; }
 
 	/**
 	 * which node is currently selected

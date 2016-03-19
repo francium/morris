@@ -1,4 +1,4 @@
-package se2aa4.morris;
+package se2aa4.morris.enums;
 
 /**
  * Enumerator of Players

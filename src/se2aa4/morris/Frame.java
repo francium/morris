@@ -1,5 +1,7 @@
 package se2aa4.morris;
 
+import se2aa4.morris.enums.Node;
+
 /**
  * Frame (model subclass)
  * Stores state of the frame

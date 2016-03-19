@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!-- UI markup and layout (view)
      Defines the view in fxml
      Created using JavaFX Scene Builder
@@ -7,12 +8,13 @@
      @author Matthew Shortt 001417616
      @version 1.0 -->
 
+<?import java.lang.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="500" maxWidth="450.0" minHeight="500.0" minWidth="450.0" prefHeight="500" prefWidth="450.0" fx:controller="se2aa4.morris.Controller" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="500" maxWidth="450.0" minHeight="500.0" minWidth="450.0" prefHeight="500" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se2aa4.morris.Controller">
    <center>
       <StackPane prefHeight="150.0" prefWidth="325.0" BorderPane.alignment="CENTER">
          <children>
@@ -36,27 +38,27 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Circle fx:id="nONW" radius="8.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nON" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nONE" radius="8.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nONW" onMouseClicked="#processNodeClick" radius="8.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nON" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nONE" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
       
-                  <Circle fx:id="nINW" radius="8.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nIN" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nINE" radius="8.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nINW" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nIN" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nINE" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       
-                  <Circle fx:id="nOW" radius="8.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nIW" radius="8.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nOW" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nIW" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
       
-                  <Circle fx:id="nIE" radius="8.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nOE" radius="8.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nIE" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOE" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
       
-                  <Circle fx:id="nISW" radius="8.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nIS" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nISE" radius="8.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nISW" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nIS" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nISE" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
 
-                  <Circle fx:id="nOSW" radius="8.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nOS" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
-                  <Circle fx:id="nOSE" radius="8.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" onMouseClicked="#processNodeClick" />
+                  <Circle fx:id="nOSW" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOS" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <Circle fx:id="nOSE" onMouseClicked="#processNodeClick" radius="8.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
          </children>
@@ -64,30 +66,30 @@
    </center>
    <left>
        <VBox alignment="CENTER" prefWidth="50.0" spacing="20.0" BorderPane.alignment="CENTER">
-           <Circle fx:id="iR0" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
-           <Circle fx:id="iR1" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
-           <Circle fx:id="iR2" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
-           <Circle fx:id="iR3" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
-           <Circle fx:id="iR4" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
-           <Circle fx:id="iR5" fill="RED" radius="10.0" onMouseClicked="#processNodeClick" />
+           <Circle fx:id="iR0" fill="RED" onMouseClicked="#processNodeClick" radius="10.0" />
+           <Circle fx:id="iR1" fill="RED" onMouseClicked="#processNodeClick" radius="10.0" />
+           <Circle fx:id="iR2" fill="RED" onMouseClicked="#processNodeClick" radius="10.0" />
+           <Circle fx:id="iR3" fill="RED" onMouseClicked="#processNodeClick" radius="10.0" />
+           <Circle fx:id="iR4" fill="RED" onMouseClicked="#processNodeClick" radius="10.0" />
+           <Circle fx:id="iR5" fill="RED" onMouseClicked="#processNodeClick" radius="10.0" />
        </VBox>
    </left>
    <right>
       <VBox alignment="CENTER" prefWidth="50.0" spacing="20.0" BorderPane.alignment="CENTER">
-          <Circle fx:id="iB0" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
-          <Circle fx:id="iB1" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
-          <Circle fx:id="iB2" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
-          <Circle fx:id="iB3" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
-          <Circle fx:id="iB4" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
-          <Circle fx:id="iB5" fill="BLUE" radius="10.0" onMouseClicked="#processNodeClick" />
+          <Circle fx:id="iB0" fill="BLUE" onMouseClicked="#processNodeClick" radius="10.0" />
+          <Circle fx:id="iB1" fill="BLUE" onMouseClicked="#processNodeClick" radius="10.0" />
+          <Circle fx:id="iB2" fill="BLUE" onMouseClicked="#processNodeClick" radius="10.0" />
+          <Circle fx:id="iB3" fill="BLUE" onMouseClicked="#processNodeClick" radius="10.0" />
+          <Circle fx:id="iB4" fill="BLUE" onMouseClicked="#processNodeClick" radius="10.0" />
+          <Circle fx:id="iB5" fill="BLUE" onMouseClicked="#processNodeClick" radius="10.0" />
       </VBox>
    </right>
    <bottom>
       <HBox alignment="CENTER" prefHeight="40.0" spacing="70.0" BorderPane.alignment="CENTER">
          <children>
-            <Button minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="New Game" textAlignment="CENTER" onAction="#processNewGame" />
+            <Button minWidth="100.0" mnemonicParsing="false" onAction="#processNewGame" prefWidth="100.0" text="New Game" textAlignment="CENTER" />
             <!--<Button minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Restore" textAlignment="CENTER" onAction="#processRestore" />-->
-            <Button fx:id="endTurnButton" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="End Turn" textAlignment="CENTER" onAction="#processEndTurn" />
+            <Button fx:id="endTurnButton" minWidth="100.0" mnemonicParsing="false" onAction="#processEndTurn" prefWidth="100.0" text="End Turn" textAlignment="CENTER" />
          </children>
       </HBox>
    </bottom>
@@ -99,11 +101,27 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="msgLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Press New Game">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Text>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text fx:id="msgLabelL" strokeType="OUTSIDE" strokeWidth="0.0" text="" GridPane.halignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="msgLabelR" strokeType="OUTSIDE" strokeWidth="0.0" text="" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </GridPane>
          </children>
       </VBox>
    </top>

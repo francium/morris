@@ -95,7 +95,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="msgLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Press New Game">
+            <Text fx:id="msgLabelL" strokeType="OUTSIDE" strokeWidth="0.0" text="Press New Game">
                <font>
                   <Font size="16.0" />
                </font>

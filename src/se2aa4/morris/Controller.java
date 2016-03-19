@@ -12,6 +12,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
+import se2aa4.morris.enums.Node;
+import se2aa4.morris.enums.Player;
 
 /**
  * Controller class
@@ -23,33 +25,51 @@ import javafx.scene.text.Text;
  */
 public class Controller implements Initializable {
 
-	// initialize game object
-	private Game game = new Game();
+	// constants
+	private Paint
+        COL_RED = Paint.valueOf("#ff0000"),
+        COL_BLUE = Paint.valueOf("#0000ff"),
+        COL_BLACK = Paint.valueOf("#000000"),
+        COL_GREEN = Paint.valueOf("#00ff00"),
+        COL_YELLOW = Paint.valueOf("#f4de00");
 
-	// paint constants
-	private Paint COLRED = Paint.valueOf("#ff0000"),
-				  COLBLUE = Paint.valueOf("#0000ff"),
-				  COLBLACK = Paint.valueOf("#000000"),
-				  COLGREEN = Paint.valueOf("#00ff00"),
-				  COLYELLOW = Paint.valueOf("#f4de00");
+    private String
+        MSG_PRESS_NEW_GAME = "Press New Game",
+        MSG_OVERLAPPING = "Overlapping Pieces",
+        MSG_NO_MOVE = "No move made",
+        MSG_MULTIPLE_MOVES = "Multiple moves made";
 
 	// UI elements
 	@FXML
 	private Button endTurnButton;
-	@FXML
-	private Shape iR0, iR1, iR2, iR3, iR4, iR5,
-				  iB0, iB1, iB2, iB3, iB4, iB5,
-				  nONW, nON, nONE, nOE, nOSE, nOS, nOSW, nOW,
-				  nINW, nIN, nINE, nIE, nISE, nIS, nISW, nIW;
-	@FXML
-	private Text msgLabel;
+
+    @FXML
+    private Text msgLabelL, msgLabelR;
+
+    @FXML
+	private Shape
+        iR0, iR1, iR2, iR3, iR4, iR5,
+        iB0, iB1, iB2, iB3, iB4, iB5,
+        nONW, nON, nONE, nOE, nOSE, nOS, nOSW, nOW,
+        nINW, nIN, nINE, nIE, nISE, nIS, nISW, nIW;
+
+    private Shape[] shapes = {
+        iR0, iR1, iR2, iR3, iR4, iR5,
+        iB0, iB1, iB2, iB3, iB4, iB5,
+        nONW, nON, nONE, nOE, nOSE, nOS, nOSW, nOW,
+        nINW, nIN, nINE, nIE, nISE, nIS, nISW, nIW
+    };
+
+    // game object
+    private Game game;
 
 	/**
 	 * initialize ui
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// unused, but required
+        game =  new Game();
+        msgLabelL.setText(MSG_PRESS_NEW_GAME);
 	}
 
 	@FXML
@@ -68,7 +88,7 @@ public class Controller implements Initializable {
 			}
 		}
 		// display game state
-		msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
+		msgLabelL.setText(game.getWhoseTurn() + "'s Turn");
 	}
 
 	@FXML
@@ -82,21 +102,21 @@ public class Controller implements Initializable {
 			}
 			game.endTurn();
 			// display game state
-			msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
+			msgLabelL.setText(game.getWhoseTurn() + "'s Turn");
 		} else {
 			// can't end turn
 			if (!game.getIsMoveMade()) {
 				// no moves made
-				msgLabel.setText(msgLabel.getText() + " | No moves made");
+                msgLabelR.setText(MSG_NO_MOVE);
 			}
 			else if (game.getAreMultipleMovesMade()) {
 				// multiple moves
-				changeNodeFill(getShape(game.getLastMove()), COLYELLOW);
-				msgLabel.setText(msgLabel.getText() + " | Multiple moves");
+				changeNodeFill(getShape(game.getLastMove()), COL_YELLOW);
+                msgLabelR.setText(MSG_MULTIPLE_MOVES);
 			} else {
 				// overlapping pieces
-				changeNodeFill(getShape(game.getInvalidNode()), COLYELLOW);
-				msgLabel.setText(msgLabel.getText() + " | Overlapping Pieces");
+				changeNodeFill(getShape(game.getInvalidNode()), COL_YELLOW);
+				msgLabelL.setText(MSG_OVERLAPPING);
 			}
 			endTurnButton.setDisable(true);
 		}
@@ -122,12 +142,12 @@ public class Controller implements Initializable {
 		// if play piece and not frame node
 		if (node.getId().contains("i")) {
 			// only allow player to select own piece
-			if (node.getId().contains("R") && game.getWhosTurn() == Player.RED) {
+			if (node.getId().contains("R") && game.getWhoseTurn() == Player.RED) {
 				game.setSelected(node);
-				changeNodeFill(getShape(node), COLGREEN);
-			} else if (node.getId().contains("B") && game.getWhosTurn() == Player.BLUE) {
+				changeNodeFill(getShape(node), COL_GREEN);
+			} else if (node.getId().contains("B") && game.getWhoseTurn() == Player.BLUE) {
 				game.setSelected(node);
-				changeNodeFill(getShape(node), COLGREEN);
+				changeNodeFill(getShape(node), COL_GREEN);
 			}
 		} else {
 			// if node selected is frame node
@@ -135,21 +155,21 @@ public class Controller implements Initializable {
 				getShape(game.getSelected()).setVisible(false);
 				Shape shape = getShape(node);
 				((Circle)shape).setRadius(10);
-				if (game.getWhosTurn() == Player.RED) changeNodeFill(shape, COLRED);
-				else changeNodeFill(shape, COLBLUE);
+				if (game.getWhoseTurn() == Player.RED) changeNodeFill(shape, COL_RED);
+				else changeNodeFill(shape, COL_BLUE);
 				game.move(node);
 			}
 		}
 		// display game state
-		msgLabel.setText(game.getWhosTurn().toString() + "'s Turn");
+		msgLabelL.setText(game.getWhoseTurn() + "'s Turn");
 	}
 
 	private void resetNodeFill(Node node) {
 		// reset nodes to original colour
 		if (node == Node.NONODE) return;
-		if (node.getId().contains("R")) changeNodeFill(getShape(node), COLRED);
-		else if (node.getId().contains("B")) changeNodeFill(getShape(node), COLBLUE);
-		else changeNodeFill(getShape(node), COLBLACK);
+		if (node.getId().contains("R")) changeNodeFill(getShape(node), COL_RED);
+		else if (node.getId().contains("B")) changeNodeFill(getShape(node), COL_BLUE);
+		else changeNodeFill(getShape(node), COL_BLACK);
 	}
 
 	// reset nodes to original radius

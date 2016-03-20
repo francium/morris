@@ -9,4 +9,9 @@ package se2aa4.morris.enums;
  */
 public enum Player {
 	RED, BLUE;
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

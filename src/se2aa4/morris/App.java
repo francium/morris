@@ -7,12 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Application class
  * Initializes javafx application
- * @author Varun Hooda 001412942
- * @author Aushim Lakhana 001201528
- * @author Matthew Shortt 001417616
- * @version 1.0
  */
 public class App extends Application{
 
@@ -23,10 +18,10 @@ public class App extends Application{
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // load UI
+        // load ui
         Parent root =  FXMLLoader.load(getClass().getResource("UI.fxml"));
 
-        // create and show UI
+        // create and show ui
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

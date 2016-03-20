@@ -1,155 +1,153 @@
 package se2aa4.morris;
 
-import se2aa4.morris.enums.Node;
-import se2aa4.morris.enums.Player;
+import se2aa4.morris.enums.*;
+
+import java.io.Serializable;
+import java.util.AbstractMap;
 
 /**
- * Game class (model)
- * Stores game state
- * @author Varun Hooda 001412942
- * @author Aushim Lakhana 001201528
- * @author Matthew Shortt 001417616
- * @version 1.0
+ * Game logic and data
  */
-public class Game {
+public class Game implements Serializable {
 
-	private boolean started;
-	private Player whoseTurn;
-	private boolean isMoveMade;
-	private boolean areMultipleMovesMade;
-	private Node selected;
-	private Frame frame;
-	private Node lastMove;
+    private Frame frame;
 
-	/**
-	 * Game object constructor
-	 */
-	public Game() {
-		started = false;
-		randTurn();
-		isMoveMade = false;
-		areMultipleMovesMade = false;
-		selected = Node.NONODE;
-	}
+    private State state, stateBak;
+    private Phase phase, phaseBak;
+    private Player turn, turnBak;
+    private Location sel, selBak;
+    private boolean moved, movedBak;
+    private boolean multipleMoves, multipleMovesBak;
 
-    /**
-     * set to random player's turn
-     */
-	private void randTurn() {
-		whoseTurn = Math.random() > 0.5 ? Player.RED : Player.BLUE;
-	}
+    public Game() {
+        // TODO
+        state = State.UNSTARTED;
+    }
+
+    public void newGame() {
+        // TODO
+        frame = new Frame();
+        state = State.IN_PROGRESS;
+        phase = Phase.MOVE;
+        sel = Location.NONE;
+        moved = false;
+        randTurn();
+        createRestorePoint();
+    }
+
+    private void randTurn() {
+        turn = Math.random() > 0.5 ? Player.RED : Player.BLUE;
+    }
 
     /**
      * set to next player's turn
      */
-	private void nextTurn() {
-		if (whoseTurn == Player.RED) whoseTurn = Player.BLUE;
-		else whoseTurn = Player.RED;
-	}
+    private void nextTurn() {
+        if (turn == Player.RED) turn = Player.BLUE;
+        else turn = Player.RED;
+    }
 
-	/**
-	 * has the game started
-	 * @return is game started
-     */
-	public boolean isStarted() { return started; }
+    public Detail endTurn() {
+        if (multipleMoves) {
+            return Detail.MULTIPLE_MOVES;
+        } else if (!moved) {
+            return Detail.NO_MOVE;
+        } else {
+            nextTurn();
+            moved = false;
+            createRestorePoint();
+            return Detail.END_TURN;
+        }
+    }
 
-	/**
-	 * who's turn is it
-	 * @return who's turn
-     */
-	public Player getWhoseTurn() { return whoseTurn; }
+    public void handleMove(Location l) {
+        // TODO
+        // move their own piece to board
+        // move their own piece around board
+        // remove opp piece if mill
+        // something is already selected
+        if (sel == Location.NONE &&
+                !Piece.isPlayers(turn, frame.getPieceByLocation(l)) &&
+                phase != Phase.REMOVE)
+            // other players piece without mill
+            return;
+        else if (Piece.isPlayers(turn, frame.getPieceByLocation(l))){
+            // reselect another piece
+            sel = l;
+            return;
+        }
+        switch (phase) {
+            // user click on empty location
+            case PLACE:
+                frame.move(sel, l);
+                sel = Location.NONE;
+                if (moved) multipleMoves = true;
+                moved = true;
+                break;
+            case MOVE:
+                frame.move(sel, l);
+                sel = Location.NONE;
+                if (moved) multipleMoves = true;
+                moved = true;
+                break;
+            case REMOVE:
+                frame.remove(l);
+                moved = true;
+                break;
+            default:
+                //
+        }
+    }
 
-	/**
-	 * which node is currently selected
-	 * @return selected node
-     */
-	public Node getSelected() { return selected; }
+    public void createRestorePoint() {
+        stateBak = state;
+        phaseBak = phase;
+        turnBak = turn;
+        selBak = sel;
+        movedBak = moved;
+        multipleMovesBak = multipleMoves;
+        frame.createRestorePoint();
+    }
 
-	/**
-	 * set selected node
-	 * @param node new selected node
-     */
-	public void setSelected(Node node) { selected = node; }
+    public void restore() {
+        state = stateBak;
+        phase = phaseBak;
+        turn = turnBak;
+        sel = selBak;
+        moved = movedBak;
+        multipleMoves = multipleMovesBak;
+        frame.restore();
+        createRestorePoint();
+    }
 
-	/**
-	 * has a move been made this turn
-	 * @return move made this turn
-     */
-	public boolean getIsMoveMade() { return isMoveMade; }
+    public boolean isMill() {
+        // TODO
+        return false;
+    }
 
-	/**
-	 * is the game frame valid
-	 * @return is frame valid
-     */
-	public boolean getIsValid() { return frame.getIsValid(); }
+    public State getState() {
+        return state;
+    }
 
-	/**
-	 * get node that is invalid (or last invalid node)
-	 * @return invalid node
-     */
-	public Node getInvalidNode() { return frame.getInvalidNode(); }
+    public Phase getPhase() {
+        return phase;
+    }
 
-	/**
-	 * has the player made move than one move this turn
-	 * @return mutliple moves made
-     */
-	public boolean getAreMultipleMovesMade() { return areMultipleMovesMade; }
+    public Player getTurn() {
+        return turn;
+    }
 
-	/**
-	 * get last move that was made
-	 * @return last node moved
-     */
-	public Node getLastMove() { return lastMove; }
+    public Location getSel() {
+        return sel;
+    }
 
-	/**
-	 * get nodes with piece on them
-	 * @return array of non empty nodes
-     */
-	public Node[] getNodes() {
-		return frame.getNodes();
-	}
+    public AbstractMap.SimpleEntry<Location, Piece>[] getBoard() {
+        return frame.getFrame();
+    }
 
-	/**
-	 * start a new game
-	 */
-	public void newGame() {
-		started = true;
-		randTurn();
-		selected = Node.NONODE;
-		areMultipleMovesMade = false;
-		isMoveMade = false;
-		frame = new Frame();
-	}
+    public Location getInvalidLocation() {
+        return frame.getInvalidLocation();
+    }
 
-	/**
-	 * end current turn
-	 */
-	public void endTurn() {
-		nextTurn();
-		selected = Node.NONODE;
-		areMultipleMovesMade = false;
-		isMoveMade = false;
-		frame.createRestorePoint();
-	}
-
-	/**
-	 * move selected piece
-	 * @param there where to move to
-     */
-	public void move(Node there) {
-		if (isMoveMade) {
-			lastMove = there;
-			areMultipleMovesMade = true;
-		}
-		isMoveMade = true;
-		frame.move(selected, there);
-		selected = Node.NONODE;
-	}
-
-	// TODO for future implementation
-	public void restore() {
-		selected = Node.NONODE;
-		frame.restore();
-	}
 
 }

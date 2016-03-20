@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- UI markup and layout (view)
+<!--
      Defines the view in fxml
      Created using JavaFX Scene Builder
-     @author Varun Hooda 001412942
-     @author Aushim Lakhana 001201528
-     @author Matthew Shortt 001417616
-     @version 1.0 -->
+-->
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="500" maxWidth="450.0" minHeight="500.0" minWidth="450.0" prefHeight="500" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se2aa4.morris.Controller">
+<BorderPane maxHeight="500" maxWidth="450.0" minHeight="550.0" minWidth="450.0" prefHeight="500" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se2aa4.morris.Controller">
    <center>
       <StackPane prefHeight="150.0" prefWidth="325.0" BorderPane.alignment="CENTER">
          <children>
@@ -84,17 +82,8 @@
           <Circle fx:id="iB5" fill="BLUE" onMouseClicked="#processNodeClick" radius="10.0" />
       </VBox>
    </right>
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="40.0" spacing="70.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button minWidth="100.0" mnemonicParsing="false" onAction="#processNewGame" prefWidth="100.0" text="New Game" textAlignment="CENTER" />
-            <!--<Button minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Restore" textAlignment="CENTER" onAction="#processRestore" />-->
-            <Button fx:id="endTurnButton" minWidth="100.0" mnemonicParsing="false" onAction="#processEndTurn" prefWidth="100.0" text="End Turn" textAlignment="CENTER" />
-         </children>
-      </HBox>
-   </bottom>
    <top>
-      <VBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Six Men’s Morris" textAlignment="CENTER">
                <font>
@@ -103,26 +92,92 @@
             </Text>
             <GridPane>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" minWidth="10.0" prefWidth="162.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" prefWidth="288.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text fx:id="msgLabelL" strokeType="OUTSIDE" strokeWidth="0.0" text="" GridPane.halignment="CENTER">
+                  <Text fx:id="msgLabelL" strokeType="OUTSIDE" strokeWidth="0.0" text="" GridPane.halignment="LEFT">
                      <font>
                         <Font size="16.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets left="32.0" />
+                     </GridPane.margin>
                   </Text>
-                  <Text fx:id="msgLabelR" strokeType="OUTSIDE" strokeWidth="0.0" text="" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <Text fx:id="msgLabelR" strokeType="OUTSIDE" strokeWidth="0.0" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
                </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
             </GridPane>
          </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </VBox>
    </top>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefWidth="100.0">
+               <children>
+                  <Button fx:id="newBut" mnemonicParsing="false" onAction="#processNewGame" prefHeight="64.0" prefWidth="100.0" text="New" textAlignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </VBox>
+            <VBox prefWidth="100.0" spacing="8.0">
+               <children>
+                  <Button fx:id="loadBut" mnemonicParsing="false" onAction="#processLoad" prefWidth="100.0" text="Load" textAlignment="CENTER" />
+                  <Button fx:id="saveBut" mnemonicParsing="false" onAction="#processSave" prefWidth="100.0" text="Save" textAlignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <VBox fx:id="spacer_unused" prefWidth="100.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#processNewGame" prefHeight="64.0" prefWidth="100.0" textAlignment="CENTER" visible="false" />
+               </children>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </VBox>
+            <VBox prefWidth="100.0">
+               <children>
+                  <Button fx:id="restoreBut" mnemonicParsing="false" onAction="#processRestore" prefHeight="64.0" prefWidth="100.0" text="Restore" textAlignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </VBox>
+            <VBox prefWidth="100.0">
+               <children>
+                  <!--<Button minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Restore" textAlignment="CENTER" onAction="#processRestore" />-->
+                  <Button fx:id="endTurnBut" mnemonicParsing="false" onAction="#processEndTurn" prefHeight="64.0" prefWidth="100.0" text="End" textAlignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
 </BorderPane>

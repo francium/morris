@@ -5,6 +5,7 @@
      Created using JavaFX Scene Builder
 -->
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.shape.*?>

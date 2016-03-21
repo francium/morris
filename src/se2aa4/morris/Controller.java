@@ -130,6 +130,7 @@ public class Controller implements Initializable {
 
 	@FXML
 	private void processNodeClick(MouseEvent event) {
+        game.isMill();
         switch (game.getState()) {
             case UNSTARTED:
                 // game isn't started

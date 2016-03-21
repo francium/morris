@@ -13,23 +13,26 @@ public class Game implements Serializable {
     private Frame frame;
 
     private State state, stateBak;
-    private Phase phase, phaseBak;
     private Player turn, turnBak;
     private Location sel, selBak;
     private boolean moved, movedBak;
     private boolean multipleMoves, multipleMovesBak;
+    private boolean blueMillExists, redMillExists;
+    private boolean redInventory, redInventoryBak,
+                    blueInventory, blueInventoryBak;
 
     public Game() {
-        // TODO
         state = State.UNSTARTED;
     }
 
     public void newGame() {
-        // TODO
         frame = new Frame();
         state = State.IN_PROGRESS;
-        phase = Phase.MOVE;
         sel = Location.NONE;
+        blueMillExists = false;
+        redMillExists = false;
+        redInventory = true;
+        blueInventory = true;
         moved = false;
         randTurn();
         createRestorePoint();
@@ -55,82 +58,124 @@ public class Game implements Serializable {
         } else {
             nextTurn();
             moved = false;
+            sel = Location.NONE;
             createRestorePoint();
             return Detail.END_TURN;
         }
     }
 
     public void handleMove(Location l) {
-        // TODO
-        // move their own piece to board
-        // move their own piece around board
-        // remove opp piece if mill
-        // something is already selected
-        if (sel == Location.NONE &&
-                !Piece.isPlayers(turn, frame.getPieceByLocation(l)) &&
-                phase != Phase.REMOVE)
-            // other players piece without mill
-            return;
-        else if (Piece.isPlayers(turn, frame.getPieceByLocation(l))){
-            // reselect another piece
-            sel = l;
-            return;
+        if (sel != Location.NONE && l.toString().contains("n")) {
+            if (Piece.isPlayers(turn, frame.getPieceByLocation(l))) {
+                // reselect piece
+                sel = l;
+            }
+            // piece is selected
+            if (!l.toString().contains("n")) {
+                // didn't click no board location
+                if (!Piece.isPlayers(turn, frame.getPieceByLocation(l))) {
+                    // clicked other players piece
+                    if (turn == Player.BLUE) {
+                        if (blueMillExists) {
+                            // allow removal of players piece
+                        } else {
+                            return;
+                        }
+                    } else {
+                        if (redMillExists) {
+                            // allow removal of players piece
+                        } else {
+                            return;
+                        }
+                    }
+                }
+            } else {
+                // clicked board location
+                if (isInventoryEmpty(turn)) {
+                    // allow moving of placed pieces
+                    if (sel.toString().contains("n")) {
+                        // selected piece is on board
+                        if (l.toString().contains("n")) {
+                            if (!frame.isMoveFly(sel, l))
+                                move(l);
+                        }
+                    }
+                } else {
+                    // move inventory pieces
+                    if (sel.toString().contains("i")) {
+                        move(l);
+                    }
+                }
+            }
+        } else {
+            // select piece
+            if (Piece.isPlayers(turn, frame.getPieceByLocation(l))) {
+                // player selected own piece
+                sel = l;
+            } else {
+                // player selected opponent's piece
+                if (turn == Player.BLUE && blueMillExists) {
+                    sel = l;
+                } else if (turn == Player.RED && redMillExists) {
+                    sel = l;
+                }
+            }
         }
-        switch (phase) {
-            // user click on empty location
-            case PLACE:
-                frame.move(sel, l);
-                sel = Location.NONE;
-                if (moved) multipleMoves = true;
-                moved = true;
-                break;
-            case MOVE:
-                frame.move(sel, l);
-                sel = Location.NONE;
-                if (moved) multipleMoves = true;
-                moved = true;
-                break;
-            case REMOVE:
-                frame.remove(l);
-                moved = true;
-                break;
-            default:
-                //
-        }
+    }
+
+    public void move(Location l) {
+        frame.move(sel, l);
+        sel = Location.NONE;
+        if (moved) multipleMoves = true;
+        moved = true;
+        redInventory = frame.isInventoryEmpty(Player.RED);
+        blueInventory = frame.isInventoryEmpty(Player.BLUE);
     }
 
     public void createRestorePoint() {
         stateBak = state;
-        phaseBak = phase;
         turnBak = turn;
         selBak = sel;
         movedBak = moved;
         multipleMovesBak = multipleMoves;
         frame.createRestorePoint();
+        redInventoryBak = redInventory;
+        blueInventoryBak = blueInventory;
     }
 
     public void restore() {
         state = stateBak;
-        phase = phaseBak;
         turn = turnBak;
         sel = selBak;
         moved = movedBak;
         multipleMoves = multipleMovesBak;
+        redInventory = redInventoryBak;
+        blueInventory = blueInventoryBak;
         frame.restore();
         createRestorePoint();
     }
 
     public boolean isMill() {
+        System.out.println("mill " + frame.isMill());
         // TODO
+        /*
+        if (frame.isMill()) {
+            if (millExists) {
+                return false;
+            } else {
+                millExists = true;
+                return true;
+            }
+        } else {
+            millExists = false;
+            return false;
+        }
+        */
         return false;
     }
 
     public State getState() {
         return state;
-    }
-
-    public Phase getPhase() {
-        return phase;
     }
 
     public Player getTurn() {
@@ -149,5 +194,8 @@ public class Game implements Serializable {
         return frame.getInvalidLocation();
     }
 
+    public boolean isInventoryEmpty(Player player) {
+        return frame.isInventoryEmpty(player);
+    }
 
 }

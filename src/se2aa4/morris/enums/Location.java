@@ -16,4 +16,23 @@ public enum Location {
         }
         return null;
     }
+
+    public static Location[] getInventory(Player p) {
+        Location[] filtered = new Location[6];
+        int c = 0;
+        if (p == Player.BLUE) {
+            for (Location l: Location.values()) {
+                if (l.toString().contains("B")) {
+                    filtered[c++] = l;
+                }
+            }
+        } else {
+            for (Location l: Location.values()) {
+                if (l.toString().contains("R")) {
+                    filtered[c++] = l;
+                }
+            }
+        }
+        return filtered;
+    }
 }

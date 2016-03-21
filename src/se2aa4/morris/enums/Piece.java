@@ -16,4 +16,12 @@ public enum Piece {
         }
         return false;
     }
+
+    public static boolean isSamePlayer(Piece p1, Piece p2, Piece p3) {
+        if (p1.toString().contains("R") && p2.toString().contains("R") &&
+                p3.toString().contains("R")) return true;
+        else if (p1.toString().contains("B") && p2.toString().contains("B") &&
+                p3.toString().contains("B")) return true;
+        else return false;
+    }
 }

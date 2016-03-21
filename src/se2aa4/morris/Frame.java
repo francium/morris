@@ -2,6 +2,7 @@ package se2aa4.morris;
 
 import se2aa4.morris.enums.Location;
 import se2aa4.morris.enums.Piece;
+import se2aa4.morris.enums.Player;
 
 import java.io.Serializable;
 import java.util.AbstractMap;
@@ -117,6 +118,68 @@ public class Frame implements Serializable {
 
     public Piece getPieceByLocation(Location l) {
         return frame.get(l);
+    }
+
+    public Player isMill() {
+        Location[][] triplets = {
+                {Location.nONW, Location.nON, Location.nONE},
+                {Location.nONE, Location.nOE, Location.nOSE},
+                {Location.nOSE, Location.nOS, Location.nOSW},
+                {Location.nOSW, Location.nOW, Location.nONW},
+                {Location.nINW, Location.nIN, Location.nINE},
+                {Location.nINE, Location.nIE, Location.nISE},
+                {Location.nISE, Location.nIS, Location.nISW},
+                {Location.nISW, Location.nIW, Location.nINW},
+        };
+        for (Location[] triplet: triplets) {
+            if (Piece.isSamePlayer(frame.get(triplet[0]), frame.get(triplet[1]),
+                    frame.get(triplet[2]))) {
+                System.out.println(triplet[0] + " " + triplet[1] + " " + triplet[2]);
+                if (Piece.isPlayers(Player.BLUE, frame.get(triplet[0])))
+                    return Player.BLUE;
+                else return Player.RED;
+            }
+        }
+        return Player.NONE;
+    }
+
+    public boolean isInventoryEmpty(Player player) {
+        for (Location l: Location.getInventory(player))
+            if (frame.get(l) != Piece.NONE) return false;
+
+        return true;
+    }
+
+    public static boolean isMoveFly(Location l1, Location l2) {
+        if (either(l1, l2, Location.nONW, Location.nON)) return false;
+        else if (either(l1, l2, Location.nON, Location.nIN)) return false;
+        else if (either(l1, l2, Location.nON, Location.nONE)) return false;
+        else if (either(l1, l2, Location.nONE, Location.nOE)) return false;
+        else if (either(l1, l2, Location.nOE, Location.nIE)) return false;
+        else if (either(l1, l2, Location.nOE, Location.nOSE)) return false;
+        else if (either(l1, l2, Location.nOSE, Location.nOS)) return false;
+        else if (either(l1, l2, Location.nOS, Location.nIS)) return false;
+        else if (either(l1, l2, Location.nOS, Location.nOSW)) return false;
+        else if (either(l1, l2, Location.nOSW, Location.nOW)) return false;
+        else if (either(l1, l2, Location.nOW, Location.nIW)) return false;
+        else if (either(l1, l2, Location.nOW, Location.nONW)) return false;
+        else if (either(l1, l2, Location.nINW, Location.nIN)) return false;
+        else if (either(l1, l2, Location.nIN, Location.nINE)) return false;
+        else if (either(l1, l2, Location.nINE, Location.nIE)) return false;
+        else if (either(l1, l2, Location.nIE, Location.nISE)) return false;
+        else if (either(l1, l2, Location.nISE, Location.nIS)) return false;
+        else if (either(l1, l2, Location.nIS, Location.nISW)) return false;
+        else if (either(l1, l2, Location.nISW, Location.nIW)) return false;
+        else if (either(l1, l2, Location.nIW, Location.nINW)) return false;
+        else return true;
+    }
+
+    public static boolean either(Location l1, Location l2, Location c1, Location c2) {
+        if (l1 == c1 || l1 == c2)
+            if (l2 == c1 || l2 == c2)
+                if (l1 != l2)
+                    return true;
+        return false;
     }
 
 }

@@ -3,13 +3,11 @@ package se2aa4.morris;
 import java.io.*;
 import java.net.URL;
 import java.util.AbstractMap;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -24,14 +22,12 @@ public class Controller implements Initializable {
 
 	// constants
     private static final String SAVE_FILENAME = "save/save.ser";
-
 	private static final Paint
         COL_RED = Paint.valueOf("#ff0000"),
         COL_BLUE = Paint.valueOf("#0000ff"),
         COL_BLACK = Paint.valueOf("#000000"),
         COL_GREEN = Paint.valueOf("#00ff00"),
         COL_YELLOW = Paint.valueOf("#f4de00");
-
     private static final String
         MSG_PRESS_NEW = "Press New",
         MSG_OVERLAPPING = "Overlapping Pieces",
@@ -46,7 +42,6 @@ public class Controller implements Initializable {
         MSG_TURN_POSTFIX = "'s turn",
         MSG_RESTORED = "Game state restored",
         MSG_MILL = "Chose piece to remove";
-
     private static final int RADIUS_EMPTY = 8;
     private static final int RADIUS_PIECE = 10;
 
@@ -73,6 +68,10 @@ public class Controller implements Initializable {
         updateMsg(game.getState());
 	}
 
+    /**
+     * Click new game button
+     * @param event action event
+     */
 	@FXML
 	private void processNewGame(ActionEvent event) {
         game.newGame();
@@ -80,9 +79,12 @@ public class Controller implements Initializable {
         draw();
 	}
 
+    /**
+     * Click load button
+     * @param event action event
+     */
     @FXML
     private void processLoad(ActionEvent event) {
-        // TODO new game load
         Game gameBak = game;
         game = load();
         if (game == null) {
@@ -94,6 +96,10 @@ public class Controller implements Initializable {
         draw();
     }
 
+    /**
+     * Click save button
+     * @param event action event
+     */
     @FXML
     private void processSave(ActionEvent event) {
         // TODO new game saved
@@ -101,6 +107,10 @@ public class Controller implements Initializable {
         else updateMsg(game.getState(), Detail.SAVE_FAIL);
     }
 
+    /**
+     * Click restore button
+     * @param event action event
+     */
     @FXML
     private void processRestore(ActionEvent event) {
         game.restore();
@@ -108,6 +118,10 @@ public class Controller implements Initializable {
         draw();
     }
 
+    /**
+     * Click end turn
+     * @param event action event
+     */
 	@FXML
 	private void processEndTurn(ActionEvent event) {
         if (game.getState() == State.UNSTARTED) return;
@@ -129,6 +143,10 @@ public class Controller implements Initializable {
         }
 	}
 
+    /**
+     * Click on a node
+     * @param event action event
+     */
 	@FXML
 	private void processNodeClick(MouseEvent event) {
         switch (game.getState()) {
@@ -153,6 +171,10 @@ public class Controller implements Initializable {
 
 	}
 
+    /**
+     * Display message about game state and additional details
+     * @param state action event
+     */
     private void updateMsg(State state) {
         switch (state) {
             case UNSTARTED:
@@ -173,6 +195,11 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Display message about game state and additional details
+     * @param state state enum
+     * @param detail detail enum
+     */
     private void updateMsg(State state, Detail detail) {
         updateMsg(state);
         switch (detail) {
@@ -213,6 +240,10 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Load a game save
+     * @return game object
+     */
     private static Game load() {
         Game game;
         try {
@@ -231,6 +262,11 @@ public class Controller implements Initializable {
         return game;
     }
 
+    /**
+     * Save a game
+     * @param game game object
+     * @return successful save
+     */
     private static boolean save(Game game) {
         try {
             FileOutputStream fileout = new FileOutputStream(SAVE_FILENAME);
@@ -245,6 +281,9 @@ public class Controller implements Initializable {
         return true;
     }
 
+    /**
+     * Draw pieces
+     */
     private void draw() {
         AbstractMap.SimpleEntry<Location, Piece>[] list = game.getBoard();
 
@@ -276,7 +315,11 @@ public class Controller implements Initializable {
         }
     }
 
-    // get javafx shape from a given Node type
+    /**
+     * get javafx shape from a given location
+     * @param loc location on the board
+     * @return javafx shape
+     */
     private Shape getShape(Location loc) {
         switch (loc) {
             case iR0:

@@ -10,6 +10,10 @@ public enum Location {
 	nONW, nON, nONE, nOE, nOSE, nOS, nOSW, nOW,
 	nINW, nIN, nINE, nIE, nISE, nIS, nISW, nIW;
 
+    /**
+     * get location by string
+     * @param s string representation of location
+     */
     public static Location getByString(String s) {
         for (Location l: values()) {
             if (l.toString().equals(s)) return l;
@@ -17,6 +21,10 @@ public enum Location {
         return null;
     }
 
+    /**
+     * get inventory locations for a player
+     * @param p which player
+     */
     public static Location[] getInventory(Player p) {
         Location[] filtered = new Location[6];
         int c = 0;

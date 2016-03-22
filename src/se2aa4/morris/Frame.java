@@ -48,6 +48,10 @@ public class Frame implements Serializable {
         frame.put(Location.iR5, Piece.R5);
 	}
 
+    /**
+     * Get board data
+     * @return board data
+     */
     public AbstractMap.SimpleEntry<Location, Piece>[] getFrame() {
         AbstractMap.SimpleEntry<Location, Piece>[] pairs;
         pairs = new AbstractMap.SimpleEntry[28];
@@ -69,14 +73,6 @@ public class Frame implements Serializable {
 	}
 
 	/**
-	 * Get invalid node
-	 * @return invalid node
-     */
-	public Location getInvalidLocation() {
-		return invalidLocation;
-	}
-
-	/**
 	 * Move piece to another location on the frame
 	 * @param here location to move
 	 * @param there destination location
@@ -92,6 +88,10 @@ public class Frame implements Serializable {
         }
 	}
 
+    /**
+     * remove a piece from a location
+     * @param there which location
+     */
     public void remove(Location there) {
         frame.put(there, Piece.NONE);
     }
@@ -116,21 +116,31 @@ public class Frame implements Serializable {
         frame = frameBak;
 	}
 
+    /**
+     * get piece based on board location
+     * @param l location on board
+     * @return piece at the location
+     */
     public Piece getPieceByLocation(Location l) {
         return frame.get(l);
     }
 
+    /**
+     * get which player currently has a mill
+     * @return player with a mill
+     */
     public Player whoseMill() {
         boolean redMill = false,
                 blueMill = false;
 
+        // handle mill in between turns
         if (this.redMill || this.blueMill) {
             if (redMill) this.redMill = false;
             else this.blueMill = false;
-            System.out.println(123);
             return Player.NONE;
         }
 
+        // possible mill locations
         Location[][] triplets = {
                 {Location.nONW, Location.nON, Location.nONE},
                 {Location.nONE, Location.nOE, Location.nOSE},
@@ -141,6 +151,8 @@ public class Frame implements Serializable {
                 {Location.nISE, Location.nIS, Location.nISW},
                 {Location.nISW, Location.nIW, Location.nINW},
         };
+
+        // check if mill exists
         for (Location[] triplet: triplets) {
             if (Piece.isSamePlayer(frame.get(triplet[0]), frame.get(triplet[1]),
                     frame.get(triplet[2]))) {
@@ -173,6 +185,11 @@ public class Frame implements Serializable {
         }
     }
 
+    /**
+     * get if inventory is empty for a given player
+     * @param player which player
+     * @return is inventory empty
+     */
     public boolean isInventoryEmpty(Player player) {
         for (Location l: Location.getInventory(player))
             if (frame.get(l) != Piece.NONE) return false;
@@ -180,7 +197,14 @@ public class Frame implements Serializable {
         return true;
     }
 
+    /**
+     * is a move a fly move
+     * @param l1 first location
+     * @param l2 second location
+     * @return is move between l1 and l2 a fly move
+     */
     public static boolean isMoveFly(Location l1, Location l2) {
+        // valid non-fly moves
         if (either(l1, l2, Location.nONW, Location.nON)) return false;
         else if (either(l1, l2, Location.nON, Location.nIN)) return false;
         else if (either(l1, l2, Location.nON, Location.nONE)) return false;
@@ -204,6 +228,14 @@ public class Frame implements Serializable {
         else return true;
     }
 
+    /**
+     * are either of the two parameters equal to other two parameters
+     * @param l1 first parameter
+     * @param l2 second parameter
+     * @param c1 first comparison parameter
+     * @param c2 second comparison parameter
+     * @return are first two equal to second two in any combination
+     */
     public static boolean either(Location l1, Location l2, Location c1, Location c2) {
         if (l1 == c1 || l1 == c2)
             if (l2 == c1 || l2 == c2)

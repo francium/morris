@@ -10,8 +10,10 @@ import java.util.AbstractMap;
  */
 public class Game implements Serializable {
 
+    // game board object
     private Frame frame;
 
+    // game fields
     private State state, stateBak;
     private Player turn, turnBak;
     private Location sel, selBak;
@@ -22,10 +24,16 @@ public class Game implements Serializable {
     private boolean redInventory, redInventoryBak,
                     blueInventory, blueInventoryBak;
 
+    /**
+     * Game constructor
+     */
     public Game() {
         state = State.UNSTARTED;
     }
 
+    /**
+     * start a new game
+     */
     public void newGame() {
         frame = new Frame();
         state = State.IN_PROGRESS;
@@ -40,6 +48,9 @@ public class Game implements Serializable {
         createRestorePoint();
     }
 
+    /**
+     * set to random players turn
+     */
     private void randTurn() {
         turn = Math.random() > 0.5 ? Player.RED : Player.BLUE;
     }
@@ -52,27 +63,25 @@ public class Game implements Serializable {
         else turn = Player.RED;
     }
 
+    /**
+     * end a turn
+     * @return
+     */
     public Detail endTurn() {
         if (multipleMoves) {
             if (turn == Player.BLUE) {
-                System.out.println(1);
                 blueMillExists = false;
             } else {
-                System.out.println(2);
                 redMillExists = false;
             }
             return Detail.MULTIPLE_MOVES;
         } else if (!moved) {
-            System.out.println(3);
             return Detail.NO_MOVE;
         } else if (redMillExists && turn == Player.RED && !removed) {
-                System.out.println(41);
                 return Detail.MILL;
         } else if (blueMillExists && turn == Player.BLUE && !removed) {
-                System.out.println(42);
                 return Detail.MILL;
         } else {
-            System.out.println(5);
             nextTurn();
             moved = false;
             removed = false;
@@ -84,6 +93,10 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * handle piece move logic
+     * @param l location on board
+     */
     public void handleMove(Location l) {
         if (sel != Location.NONE && l.toString().contains("n")) {
             if (Piece.isPlayers(turn, frame.getPieceByLocation(l))) {
@@ -122,7 +135,6 @@ public class Game implements Serializable {
                         frame.remove(l);
                         redMillExists = false;
                         removed = true;
-                        System.out.println("removed a piece");
                         return;
                     } else {
                         return;
@@ -133,7 +145,6 @@ public class Game implements Serializable {
                         frame.remove(l);
                         redMillExists = false;
                         removed = true;
-                        System.out.println("removed a piece");
                         return;
                     } else {
                         return;
@@ -155,6 +166,10 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * move a piece
+     * @param l location to move (the selected piece)
+     */
     public void move(Location l) {
         frame.move(sel, l);
         sel = Location.NONE;
@@ -164,6 +179,9 @@ public class Game implements Serializable {
         blueInventory = frame.isInventoryEmpty(Player.BLUE);
     }
 
+    /**
+     * create a restore point
+     */
     public void createRestorePoint() {
         stateBak = state;
         turnBak = turn;
@@ -176,6 +194,9 @@ public class Game implements Serializable {
         blueInventoryBak = blueInventory;
     }
 
+    /**
+     * restore game state
+     */
     public void restore() {
         state = stateBak;
         turn = turnBak;
@@ -189,15 +210,21 @@ public class Game implements Serializable {
         createRestorePoint();
     }
 
+    /**
+     * get who has a mill
+     * @return which player has a mill
+     */
     public Player whoseMill() {
         if (blueMillExists) return Player.BLUE;
         else if (redMillExists) return Player.RED;
         else return Player.NONE;
     }
 
+    /**
+     * update mill information
+     */
     public void updateMillInfo() {
         Player whoseMill = frame.whoseMill();
-        System.out.println("whoseMill = " + whoseMill);
         if (whoseMill == Player.BLUE) {
             if (blueMillExists) {
             } else {
@@ -224,22 +251,43 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * get game state
+     * @return
+     */
     public State getState() {
         return state;
     }
 
+    /**
+     * get whose turn it is
+     * @return
+     */
     public Player getTurn() {
         return turn;
     }
 
+    /**
+     * get selected pieces' location
+     * @return
+     */
     public Location getSel() {
         return sel;
     }
 
+    /**
+     * get board location's data
+     * @return
+     */
     public AbstractMap.SimpleEntry<Location, Piece>[] getBoard() {
         return frame.getFrame();
     }
 
+    /**
+     * get if player's inventory is empty
+     * @param player which player
+     * @return is inventory empty
+     */
     public boolean isInventoryEmpty(Player player) {
         return frame.isInventoryEmpty(player);
     }

@@ -5,10 +5,7 @@ import se2aa4.morris.enums.Piece;
 import se2aa4.morris.enums.Player;
 
 import java.io.Serializable;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Frame data and methods
@@ -21,6 +18,9 @@ public class Frame implements Serializable {
     // board fields
 	private boolean valid, validBak;
 	private Location invalidLocation, invalidLocationBak;
+
+    private boolean redMill, blueMill;
+    private Location[] blueMillLocation, redMillLocation;
 
 	/**
 	 * Frame object constructor
@@ -93,7 +93,7 @@ public class Frame implements Serializable {
 	}
 
     public void remove(Location there) {
-        frame.remove(there);
+        frame.put(there, Piece.NONE);
     }
 
 	/**
@@ -120,7 +120,17 @@ public class Frame implements Serializable {
         return frame.get(l);
     }
 
-    public Player isMill() {
+    public Player whoseMill() {
+        boolean redMill = false,
+                blueMill = false;
+
+        if (this.redMill || this.blueMill) {
+            if (redMill) this.redMill = false;
+            else this.blueMill = false;
+            System.out.println(123);
+            return Player.NONE;
+        }
+
         Location[][] triplets = {
                 {Location.nONW, Location.nON, Location.nONE},
                 {Location.nONE, Location.nOE, Location.nOSE},
@@ -134,13 +144,33 @@ public class Frame implements Serializable {
         for (Location[] triplet: triplets) {
             if (Piece.isSamePlayer(frame.get(triplet[0]), frame.get(triplet[1]),
                     frame.get(triplet[2]))) {
-                System.out.println(triplet[0] + " " + triplet[1] + " " + triplet[2]);
-                if (Piece.isPlayers(Player.BLUE, frame.get(triplet[0])))
-                    return Player.BLUE;
-                else return Player.RED;
+                if (Piece.isPlayers(Player.BLUE, frame.get(triplet[0]))) {
+                    if (!Arrays.equals(triplet, blueMillLocation)) {
+                        blueMill = true;
+                        blueMillLocation = triplet;
+                    } else {
+                        blueMillLocation = null;
+                    }
+                } else {
+                    if (!Arrays.equals(triplet, redMillLocation)) {
+                        redMill = true;
+                        redMillLocation = triplet;
+                    } else {
+                        blueMillLocation = null;
+                    }
+                }
             }
         }
-        return Player.NONE;
+
+        this.redMill = redMill;
+        this.blueMill = blueMill;
+        if (blueMill && redMill) {
+            return Player.BOTH;
+        } else if (blueMill ^ redMill) {
+            return (blueMill) ? Player.BLUE : Player.RED;
+        } else {
+            return Player.NONE;
+        }
     }
 
     public boolean isInventoryEmpty(Player player) {

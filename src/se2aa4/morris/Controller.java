@@ -44,7 +44,8 @@ public class Controller implements Initializable {
         MSG_DRAW = "Draw",
         MSG_WIN_POSTFIX = " wins",
         MSG_TURN_POSTFIX = "'s turn",
-        MSG_RESTORED = "Game state restored";
+        MSG_RESTORED = "Game state restored",
+        MSG_MILL = "Chose piece to remove";
 
     private static final int RADIUS_EMPTY = 8;
     private static final int RADIUS_PIECE = 10;
@@ -130,7 +131,6 @@ public class Controller implements Initializable {
 
 	@FXML
 	private void processNodeClick(MouseEvent event) {
-        game.isMill();
         switch (game.getState()) {
             case UNSTARTED:
                 // game isn't started
@@ -138,7 +138,7 @@ public class Controller implements Initializable {
             case IN_PROGRESS:
                 Location loc = Location.getByString(((Shape)event.getSource()).getId());
                 game.handleMove(loc);
-                if (game.isMill()) {
+                if (game.whoseMill() == game.getTurn()) {
                     updateMsg(game.getState(), Detail.MILL);
                 } else {
                     updateMsg(game.getState(), Detail.CLEAR);
@@ -178,6 +178,11 @@ public class Controller implements Initializable {
         switch (detail) {
             case CLEAR:
                 msgLabelR.setText("");
+                break;
+            case END_TURN:
+                break;
+            case MILL:
+                msgLabelR.setText(MSG_MILL);
                 break;
             case OVERLAPPING:
                 msgLabelR.setText(MSG_OVERLAPPING);

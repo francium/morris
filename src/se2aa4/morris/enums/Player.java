@@ -8,7 +8,7 @@ package se2aa4.morris.enums;
  * @version 1.0
  */
 public enum Player {
-	NONE, RED, BLUE;
+	NONE, BOTH, RED, BLUE;
 
     @Override
     public String toString() {

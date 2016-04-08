@@ -353,20 +353,20 @@ public class Frame implements Serializable {
     }
 
     public boolean movePossible(Player p){
-        boolean move = false;
         for (Map.Entry<Location, Piece> entry : frame.entrySet()){
-            boolean playersColour = (frame.get(entry.getKey()).toString().charAt(0) == p.toString().charAt(0));
+            boolean playersColor = Piece.isPlayers(p, frame.get(entry.getKey()));
 
-            if(!entry.getKey().toString().contains("i") && playersColour){
-                ArrayList<Location> adjacentLocations = getAdjacent(entry.getKey()); //find adjacent location of this piece
-                for(int i = 0; i < adjacentLocations.size(); i++){
-                    if(frame.get(adjacentLocations.get(i)) == Piece.NONE ){
-                        move = true;
-                    }
+            if (!Location.isInventory(entry.getKey()) && playersColor && !Location.isInventory(entry.getKey())) {
+                //find adjacent location of this piece
+                ArrayList<Location> adjacentLocations = getAdjacent(entry.getKey());
+                for (Location adj: adjacentLocations) {
+                    if (frame.get(adj) == Piece.NONE)
+                        return true;
                 }
-            }
+            } else if (Location.isInventory(entry.getKey()))
+                return true;
         }
-        return move;
+        return false;
     }
 
 

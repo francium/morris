@@ -51,9 +51,7 @@ public class Game implements Serializable {
         createRestorePoint();
 
         if (turn == cpuPlayer) {
-            System.out.println("cpuMove");
             cpuMove();
-            System.out.println("endTurn");
             endTurn();
         }
     }
@@ -152,11 +150,10 @@ public class Game implements Serializable {
     }
 
     private void cpuMillLogic() {
-        // TODO
         Location firstMill = null;
         for (AbstractMap.SimpleEntry<Location, Piece> i: frame.getFrame()) {
             if (!Location.isInventory(i.getKey()))
-                if (i.getValue() != Piece.NONE && Piece.isPlayers(cpuPlayer, i.getValue())) {
+                if (i.getValue() != Piece.NONE && !Piece.isPlayers(cpuPlayer, i.getValue())) {
                     if (!frame.isMillPiece(i.getKey())) {
                         frame.remove(i.getKey());
                         return;

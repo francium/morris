@@ -168,7 +168,6 @@ public class Controller implements Initializable {
 	private void processEndTurn(ActionEvent event) {
         if (game.getState() == State.UNSTARTED) return;
         Detail status = game.endTurn();
-        System.out.println("*0 " + game.getTurn());
         switch (status) {
             case MULTIPLE_MOVES:
                 updateMsg(game.getState(), Detail.MULTIPLE_MOVES);
@@ -211,8 +210,10 @@ public class Controller implements Initializable {
                 draw();
                 break;
             case DRAW:
+                updateMsg(game.getState(), Detail.CLEAR);
                 break;
             case WON:
+                updateMsg(game.getState(), Detail.CLEAR);
                 break;
         }
 

@@ -89,7 +89,7 @@ public class Game implements Serializable {
      */
     public Detail endTurn() {
         if (cpu && cpuPlayer == turn) {
-            return endTurnSuccessful();
+            return endTurnLogic();
         } else if (multipleMoves) {
             if (turn == Player.BLUE) {
                 blueMillExists = false;
@@ -104,12 +104,18 @@ public class Game implements Serializable {
         } else if (blueMillExists && turn == Player.BLUE && !removed) {
             return Detail.MILL;
         } else {
-            return endTurnSuccessful();
+            return endTurnLogic();
         }
     }
 
-    private Detail endTurnSuccessful() {
+    private Detail endTurnLogic() {
         nextTurn();
+
+        if (!frame.movePossible(turn))
+            state = State.DRAW;
+        else if (frame.getNumPieces(turn) <= 2)
+            state = State.WON;
+
         moved = false;
         removed = false;
         redMillExists = false;
@@ -127,11 +133,40 @@ public class Game implements Serializable {
                 for (Location n: Location.getFrame()) {
                     if (frame.getPieceByLocation(n) == Piece.NONE) {
                         handleMove(n);
+                        handleCpuMill();
                         return;
                     }
                 }
             }
         }
+    }
+
+    private void handleCpuMill() {
+        if (cpuPlayer == Player.RED) {
+            if (redMillExists)
+                cpuMillLogic();
+        } else {
+            if (blueMillExists)
+                cpuMillLogic();
+        }
+    }
+
+    private void cpuMillLogic() {
+        // TODO
+        Location firstMill = null;
+        for (AbstractMap.SimpleEntry<Location, Piece> i: frame.getFrame()) {
+            if (!Location.isInventory(i.getKey()))
+                if (i.getValue() != Piece.NONE && Piece.isPlayers(cpuPlayer, i.getValue())) {
+                    if (!frame.isMillPiece(i.getKey())) {
+                        frame.remove(i.getKey());
+                        return;
+                    } else {
+                        if (firstMill == null) firstMill = i.getKey();
+                    }
+                }
+        }
+        frame.remove(firstMill);
+        return;
     }
 
     /**

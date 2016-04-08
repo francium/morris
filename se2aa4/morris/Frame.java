@@ -16,10 +16,23 @@ public class Frame implements Serializable {
     private Map<Location, Piece> frame, frameBak;
 
     // board fields
+    private int numBluePieces, numRedPieces;
 	private boolean valid, validBak;
 	private Location invalidLocation, invalidLocationBak;
     private boolean redMill, blueMill, redMillBak, blueMillBak;
     private ArrayList<Location[]> blueMills, redMills, blueMillsBak, redMillsBak;
+
+    private Location[][] triplets = {
+        {Location.nONW, Location.nON, Location.nONE},
+        {Location.nONE, Location.nOE, Location.nOSE},
+        {Location.nOSE, Location.nOS, Location.nOSW},
+        {Location.nOSW, Location.nOW, Location.nONW},
+        {Location.nINW, Location.nIN, Location.nINE},
+        {Location.nINE, Location.nIE, Location.nISE},
+        {Location.nISE, Location.nIS, Location.nISW},
+        {Location.nISW, Location.nIW, Location.nINW},
+    };
+
 
 	/**
 	 * Frame object constructor
@@ -27,6 +40,9 @@ public class Frame implements Serializable {
 	public Frame() {
         valid = true;
         frame = new HashMap<>(28);
+
+        numBluePieces = 6;
+        numRedPieces = 6;
 
         for (Location l: Location.values()) {
             frame.put(l, Piece.NONE);
@@ -99,11 +115,22 @@ public class Frame implements Serializable {
         }
 	}
 
+    public int getNumPieces(Player p) {
+        if (p == Player.BLUE)
+            return numBluePieces;
+        else
+            return numRedPieces;
+    }
+
     /**
      * remove a piece from a location
      * @param there which location
      */
     public void remove(Location there) {
+        if (Piece.isPlayers(Player.BLUE, getPieceByLocation(there)))
+            numRedPieces--;
+        else
+            numBluePieces--;
         frame.put(there, Piece.NONE);
     }
 
@@ -150,17 +177,6 @@ public class Frame implements Serializable {
     public void checkForMill() {
         ArrayList<Location[]> redMills = new ArrayList<>();
         ArrayList<Location[]> blueMills = new ArrayList<>();
-
-        Location[][] triplets = {
-                {Location.nONW, Location.nON, Location.nONE},
-                {Location.nONE, Location.nOE, Location.nOSE},
-                {Location.nOSE, Location.nOS, Location.nOSW},
-                {Location.nOSW, Location.nOW, Location.nONW},
-                {Location.nINW, Location.nIN, Location.nINE},
-                {Location.nINE, Location.nIE, Location.nISE},
-                {Location.nISE, Location.nIS, Location.nISW},
-                {Location.nISW, Location.nIW, Location.nINW},
-        };
 
         for (int i=0; i<triplets.length; i++) {
             Location[] trip = triplets[i];
@@ -231,6 +247,21 @@ public class Frame implements Serializable {
                 redMill = false;
             }
         }
+    }
+
+    public boolean isMillPiece(Location l) {
+        for (Location[] trip: triplets) {
+            for (Location i: trip) {
+                if (i == l)
+                    if (Piece.isSamePlayer(frame.get(trip[0]),
+                                           frame.get(trip[1]),
+                                           frame.get(trip[2]))) {
+                        return true;
+                    }
+
+            }
+        }
+        return false;
     }
 
     private static String printMill(Location[] a, Location[] b) {

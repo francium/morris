@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -50,6 +51,9 @@ public class Controller implements Initializable {
     private Text msgLabelL, msgLabelR;
 
     @FXML
+    private Button twoPlayerBut, cpuBut;
+
+    @FXML
 	private Shape
         iR0, iR1, iR2, iR3, iR4, iR5,
         iB0, iB1, iB2, iB3, iB4, iB5,
@@ -66,7 +70,34 @@ public class Controller implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
         game =  new Game();
         updateMsg(game.getState());
+        // initially p v cpu
+        cpuBut.setDisable(true);
+        cpuBut.setTextFill(COL_RED);
+        game.setCpu(true);
+
 	}
+
+    @FXML
+    private void processCpu(ActionEvent event) {
+        game = new Game();
+        game.setCpu(false);
+        cpuBut.setDisable(true);
+        cpuBut.setTextFill(COL_RED);
+        twoPlayerBut.setDisable(false);
+        twoPlayerBut.setTextFill(COL_BLACK);
+        updateMsg(State.UNSTARTED);
+    }
+
+    @FXML
+    private void processTwoPlayer(ActionEvent event) {
+        game = new Game();
+        game.setCpu(false);
+        cpuBut.setDisable(false);
+        cpuBut.setTextFill(COL_BLACK);
+        twoPlayerBut.setDisable(true);
+        twoPlayerBut.setTextFill(COL_RED);
+        updateMsg(State.UNSTARTED);
+    }
 
     /**
      * Click new game button

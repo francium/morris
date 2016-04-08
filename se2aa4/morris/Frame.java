@@ -18,9 +18,8 @@ public class Frame implements Serializable {
     // board fields
 	private boolean valid, validBak;
 	private Location invalidLocation, invalidLocationBak;
-
-    private boolean redMill, blueMill;
-    private Location[] blueMillLocation, redMillLocation;
+    private boolean redMill, blueMill, redMillBak, blueMillBak;
+    private ArrayList<Location[]> blueMills, redMills, blueMillsBak, redMillsBak;
 
 	/**
 	 * Frame object constructor
@@ -32,6 +31,9 @@ public class Frame implements Serializable {
         for (Location l: Location.values()) {
             frame.put(l, Piece.NONE);
         }
+
+        blueMills = new ArrayList<>();
+        redMills = new ArrayList<>();
 
         frame.put(Location.iB0, Piece.B0);
         frame.put(Location.iB1, Piece.B1);
@@ -63,6 +65,15 @@ public class Frame implements Serializable {
         }
         return pairs;
     }
+
+    public boolean isRedMill() {
+        return redMill;
+    }
+
+    public boolean isBlueMill() {
+        return blueMill;
+    }
+
 
 	/**
 	 * Check if frame is valid
@@ -102,6 +113,10 @@ public class Frame implements Serializable {
 	public void createRestorePoint() {
         validBak = valid;
         invalidLocationBak = invalidLocation;
+        redMillBak = redMill;
+        blueMillBak = blueMill;
+        redMillsBak = redMills;
+        blueMillsBak = blueMills;
         frameBak = new HashMap<Location, Piece>(frame);
         for (Location loc: frameBak.keySet()) {
         }
@@ -114,6 +129,10 @@ public class Frame implements Serializable {
         valid = validBak;
         invalidLocation = invalidLocationBak;
         frame = frameBak;
+        redMill = redMillBak;
+        blueMill = blueMillBak;
+        redMills = redMillsBak;
+        blueMills = blueMillsBak;
 	}
 
     /**
@@ -126,21 +145,12 @@ public class Frame implements Serializable {
     }
 
     /**
-     * get which player currently has a mill
-     * @return player with a mill
+     * Check if mill exists for either player
      */
-    public Player whoseMill() {
-        boolean redMill = false,
-                blueMill = false;
+    public void checkForMill() {
+        ArrayList<Location[]> redMills = new ArrayList<>();
+        ArrayList<Location[]> blueMills = new ArrayList<>();
 
-        // handle mill in between turns
-        if (this.redMill || this.blueMill) {
-            if (redMill) this.redMill = false;
-            else this.blueMill = false;
-            return Player.NONE;
-        }
-
-        // possible mill locations
         Location[][] triplets = {
                 {Location.nONW, Location.nON, Location.nONE},
                 {Location.nONE, Location.nOE, Location.nOSE},
@@ -152,37 +162,102 @@ public class Frame implements Serializable {
                 {Location.nISW, Location.nIW, Location.nINW},
         };
 
-        // check if mill exists
-        for (Location[] triplet: triplets) {
-            if (Piece.isSamePlayer(frame.get(triplet[0]), frame.get(triplet[1]),
-                    frame.get(triplet[2]))) {
-                if (Piece.isPlayers(Player.BLUE, frame.get(triplet[0]))) {
-                    if (!Arrays.equals(triplet, blueMillLocation)) {
-                        blueMill = true;
-                        blueMillLocation = triplet;
-                    } else {
-                        blueMillLocation = null;
-                    }
+        for (int i=0; i<triplets.length; i++) {
+            Location[] trip = triplets[i];
+            if (Piece.isSamePlayer(frame.get(trip[0]),
+                                   frame.get(trip[1]),
+                                   frame.get(trip[2]))) {
+                if (Piece.isPlayers(Player.RED, frame.get(trip[1]))) {
+                    redMills.add(trip);
                 } else {
-                    if (!Arrays.equals(triplet, redMillLocation)) {
-                        redMill = true;
-                        redMillLocation = triplet;
-                    } else {
-                        blueMillLocation = null;
-                    }
+                    blueMills.add(trip);
                 }
             }
         }
 
-        this.redMill = redMill;
-        this.blueMill = blueMill;
-        if (blueMill && redMill) {
-            return Player.BOTH;
-        } else if (blueMill ^ redMill) {
-            return (blueMill) ? Player.BLUE : Player.RED;
-        } else {
-            return Player.NONE;
+        System.out.print("new red Mills\t\n");
+        for (Location[] mill: redMills) {
+            System.out.println("\t" + printMill(mill));
         }
+        System.out.print("new blue Mills\t\n");
+        for (Location[] mill: blueMills) {
+            System.out.println("\t" + printMill(mill));
+        }
+        checkNewMills(redMills, blueMills);
+    }
+
+    /**
+     * Check new mills for both players
+     * @param redMills
+     * @param blueMills
+     */
+    private void checkNewMills(ArrayList<Location[]> redMills,
+                              ArrayList<Location[]> blueMills) {
+        checkNewMills(Player.RED, redMills);
+        checkNewMills(Player.BLUE, blueMills);
+    }
+
+    /**
+     * Check new mill for specific player
+     * @param p
+     * @param mills
+     */
+    private void checkNewMills(Player p, ArrayList<Location[]> mills) {
+        ArrayList<Location[]> oldMills = p == Player.RED ? redMills : blueMills;
+
+        for (Location[] tripi: mills) {
+            boolean newMill = false;
+            if (oldMills.size() > 0) {
+                oldMills.clear();
+                for (Location[] tripj : oldMills) {
+                    if (!isSameTriplet(tripi, tripj)) {
+                        newMill = true;
+                    }
+                    oldMills.add(tripi);
+                }
+            } else {
+                newMill = true;
+                oldMills.add(tripi);
+            }
+
+            if (newMill) {
+                if (p == Player.RED) redMill = true;
+                else blueMill = true;
+                return;
+            } else {
+                blueMill = false;
+                redMill = false;
+            }
+        }
+    }
+
+    private static String printMill(Location[] a, Location[] b) {
+        String out = "";
+        for (Location i: a) out += i + ", ";
+        out += "\n";
+        for (Location i: b) out += i + ", ";
+        out += "\n";
+        return out;
+    }
+
+    private static String printMill(Location[] a) {
+        String out = "";
+        for (Location i: a) out += i + ", ";
+        out += "\n";
+        return out;
+    }
+
+    /**
+     * Do both arrays contain same entries
+     * @param t1
+     * @param t2
+     * @return
+     */
+    private static boolean isSameTriplet(Location[] t1, Location[] t2) {
+        for (int i=0; i<t1.length; i++) {
+            if (!(t1[i] == (t2[i]))) return false;
+        }
+        return true;
     }
 
     /**
@@ -242,6 +317,88 @@ public class Frame implements Serializable {
                 if (l1 != l2)
                     return true;
         return false;
+    }
+
+    public boolean movePossible(Player p){
+        boolean move = false;
+        for (Map.Entry<Location, Piece> entry : frame.entrySet()){
+            boolean playersColour = (frame.get(entry.getKey()).toString().charAt(0) == p.toString().charAt(0));
+
+            if(!entry.getKey().toString().contains("i") && playersColour){
+                ArrayList<Location> adjacentLocations = getAdjacent(entry.getKey()); //find adjacent location of this piece
+                for(int i = 0; i < adjacentLocations.size(); i++){
+                    if(frame.get(adjacentLocations.get(i)) == Piece.NONE ){
+                        move = true;
+                    }
+                }
+            }
+        }
+        return move;
+    }
+
+
+    private ArrayList<Location> getAdjacent(Location loc){
+        ArrayList<Location> adjLoc = new ArrayList();
+        switch(loc){
+            case nONW : adjLoc.add(Location.nON);
+                adjLoc.add(Location.nOW);
+                break;
+            case nON : adjLoc.add(Location.nONE);
+                adjLoc.add(Location.nONW);
+                adjLoc.add(Location.nIN);
+                break;
+            case nONE : adjLoc.add(Location.nOE);
+                adjLoc.add(Location.nON);
+                break;
+            case nOE :  adjLoc.add(Location.nONE);
+                adjLoc.add(Location.nOSE);
+                adjLoc.add(Location.nIE);
+                break;
+            case nOSE : adjLoc.add(Location.nOE);
+                adjLoc.add(Location.nOS);
+                break;
+            case nOS : adjLoc.add(Location.nOSE);
+                adjLoc.add(Location.nOSW);
+                adjLoc.add(Location.nIS);
+                break;
+            case nOSW : adjLoc.add(Location.nOS);
+                adjLoc.add(Location.nOW);
+                break;
+            case nOW : adjLoc.add(Location.nONW);
+                adjLoc.add(Location.nOSW);
+                adjLoc.add(Location.nIW);
+                break;
+            case nINW : adjLoc.add(Location.nIN);
+                adjLoc.add(Location.nIW);
+                break;
+            case nIN : adjLoc.add(Location.nINW);
+                adjLoc.add(Location.nINE);
+                adjLoc.add(Location.nON);
+                break;
+            case nINE : adjLoc.add(Location.nIN);
+                adjLoc.add(Location.nIE);
+                break;
+            case nIE : adjLoc.add(Location.nINE);
+                adjLoc.add(Location.nISE);
+                adjLoc.add(Location.nOE);
+                break;
+            case nISE : adjLoc.add(Location.nIS);
+                adjLoc.add(Location.nIE);
+                break;
+            case nIS : adjLoc.add(Location.nISE);
+                adjLoc.add(Location.nISW);
+                adjLoc.add(Location.nOS);
+                break;
+            case nISW : adjLoc.add(Location.nIS);
+                adjLoc.add(Location.nIW);
+                break;
+            case nIW : adjLoc.add(Location.nINW);
+                adjLoc.add(Location.nISW);
+                adjLoc.add(Location.nOW);
+                break;
+            default : break;
+        }
+        return adjLoc;
     }
 
 }

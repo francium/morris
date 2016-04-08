@@ -127,6 +127,15 @@
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
+            <VBox prefWidth="100.0" spacing="8.0">
+               <children>
+                  <Button fx:id="twoPlayerBut" mnemonicParsing="false" onAction="#processTwoPlayer" prefWidth="100.0" text="2 Player" textAlignment="CENTER" />
+                  <Button fx:id="cpuBut" mnemonicParsing="false" onAction="#processCpu" prefWidth="100.0" text="CPU" textAlignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </VBox>
             <VBox prefWidth="100.0">
                <children>
                   <Button fx:id="newBut" mnemonicParsing="false" onAction="#processNewGame" prefHeight="64.0" prefWidth="100.0" text="New" textAlignment="CENTER" />
@@ -146,14 +155,6 @@
                <HBox.margin>
                   <Insets />
                </HBox.margin>
-            </VBox>
-            <VBox fx:id="spacer_unused" prefWidth="100.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#processNewGame" prefHeight="64.0" prefWidth="100.0" textAlignment="CENTER" visible="false" />
-               </children>
-               <padding>
-                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-               </padding>
             </VBox>
             <VBox prefWidth="100.0">
                <children>

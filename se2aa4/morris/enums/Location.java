@@ -43,4 +43,9 @@ public enum Location {
         }
         return filtered;
     }
+
+    public static boolean isInventory(Location l) {
+        if (l.toString().contains("i")) return true;
+        return false;
+    }
 }

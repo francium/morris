@@ -17,6 +17,7 @@ public class Game implements Serializable {
     private State state, stateBak;
     private Player turn, turnBak;
     private Location sel, selBak;
+    private boolean cpu, cpuBak;
     private boolean moved, movedBak;
     private boolean multipleMoves, multipleMovesBak;
     private boolean blueMillExists, redMillExists;
@@ -48,6 +49,10 @@ public class Game implements Serializable {
         createRestorePoint();
     }
 
+    public boolean getCpu() { return cpu; }
+
+    public void setCpu(boolean b) { cpu = b; }
+
     /**
      * set to random players turn
      */
@@ -78,9 +83,9 @@ public class Game implements Serializable {
         } else if (!moved) {
             return Detail.NO_MOVE;
         } else if (redMillExists && turn == Player.RED && !removed) {
-                return Detail.MILL;
+            return Detail.MILL;
         } else if (blueMillExists && turn == Player.BLUE && !removed) {
-                return Detail.MILL;
+            return Detail.MILL;
         } else {
             nextTurn();
             moved = false;
@@ -89,8 +94,13 @@ public class Game implements Serializable {
             blueMillExists = false;
             sel = Location.NONE;
             createRestorePoint();
+            if (cpu) cpuMove();
             return Detail.END_TURN;
         }
+    }
+
+    private void cpuMove() {
+        // TODO
     }
 
     /**
@@ -113,9 +123,10 @@ public class Game implements Serializable {
                     if (sel.toString().contains("n")) {
                         // selected piece is on board
                         if (l.toString().contains("n")) {
-                            if (!frame.isMoveFly(sel, l))
+                            if (!frame.isMoveFly(sel, l)) {
                                 move(l);
                                 updateMillInfo();
+                            }
                         }
                     }
                 } else {
@@ -129,25 +140,31 @@ public class Game implements Serializable {
         } else {
             if (!Piece.isPlayers(turn, frame.getPieceByLocation(l))) {
                 // clicked other players piece
-                if (turn == Player.BLUE) {
-                    if (blueMillExists && !removed) {
-                        // allow removal of players piece
-                        frame.remove(l);
-                        redMillExists = false;
-                        removed = true;
-                        return;
+                if (!Location.isInventory(l)) {
+                    // if piece is not an inventory piece
+                    // allow removal of players piece
+                    if (turn == Player.BLUE) {
+                        if (blueMillExists && !removed) {
+                            // allow removal of players piece
+                            frame.remove(l);
+                            redMillExists = false;
+                            removed = true;
+                            if (1 == 1); // just for fun
+                            updateMillInfo();
+                            return;
+                        } else {
+                            return;
+                        }
                     } else {
-                        return;
-                    }
-                } else {
-                    if (redMillExists && !removed) {
-                        // allow removal of players piece
-                        frame.remove(l);
-                        redMillExists = false;
-                        removed = true;
-                        return;
-                    } else {
-                        return;
+                        if (redMillExists && !removed) {
+                            frame.remove(l);
+                            redMillExists = false;
+                            removed = true;
+                            updateMillInfo();
+                            return;
+                        } else {
+                            return;
+                        }
                     }
                 }
             }
@@ -155,6 +172,11 @@ public class Game implements Serializable {
             if (Piece.isPlayers(turn, frame.getPieceByLocation(l))) {
                 // player selected own piece
                 sel = l;
+            }
+            //TODO refactor this
+            // this else is taken care of by previous if
+            // this is old code, no longer required
+                /*
             } else {
                 // player selected opponent's piece
                 if (turn == Player.BLUE && blueMillExists) {
@@ -163,6 +185,7 @@ public class Game implements Serializable {
                     sel = l;
                 }
             }
+            */
         }
     }
 
@@ -183,6 +206,7 @@ public class Game implements Serializable {
      * create a restore point
      */
     public void createRestorePoint() {
+        cpuBak = cpu;
         stateBak = state;
         turnBak = turn;
         selBak = sel;
@@ -198,6 +222,7 @@ public class Game implements Serializable {
      * restore game state
      */
     public void restore() {
+        cpu = cpuBak;
         state = stateBak;
         turn = turnBak;
         sel = selBak;
@@ -223,32 +248,10 @@ public class Game implements Serializable {
     /**
      * update mill information
      */
-    public void updateMillInfo() {
-        Player whoseMill = frame.whoseMill();
-        if (whoseMill == Player.BLUE) {
-            if (blueMillExists) {
-            } else {
-                blueMillExists = true;
-            }
-        } else if (whoseMill == Player.RED) {
-            if (redMillExists) {
-            } else {
-                redMillExists = true;
-            }
-        } else if (whoseMill == Player.BOTH) {
-            if (redMillExists) {
-            } else if (!redMillExists) {
-                redMillExists = true;
-            }
-
-            if (blueMillExists) {
-            } else if (!blueMillExists) {
-                blueMillExists = true;
-            }
-        } else {
-            blueMillExists = false;
-            redMillExists = false;
-        }
+    private void updateMillInfo() {
+        frame.checkForMill();
+        blueMillExists = frame.isBlueMill();
+        redMillExists = frame.isRedMill();
     }
 
     /**

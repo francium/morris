@@ -44,6 +44,17 @@ public enum Location {
         return filtered;
     }
 
+    public static Location[] getFrame() {
+        Location[] filtered = new Location[16];
+        int c = 0;
+        for (Location l: Location.values()) {
+            if (!isInventory(l) && l != NONE) {
+                filtered[c++] = l;
+            }
+        }
+        return filtered;
+    }
+
     public static boolean isInventory(Location l) {
         if (l.toString().contains("i")) return true;
         return false;

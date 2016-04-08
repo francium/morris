@@ -50,13 +50,19 @@ public class Game implements Serializable {
         randCpuPlayer();
         createRestorePoint();
 
-        if (turn == cpuPlayer) cpuMove();
-        System.out.println("cpu is: " + cpuPlayer);
+        if (turn == cpuPlayer) {
+            System.out.println("cpuMove");
+            cpuMove();
+            System.out.println("endTurn");
+            endTurn();
+        }
     }
 
     public boolean getCpu() { return cpu; }
 
     public void setCpu(boolean b) { cpu = b; }
+
+    public Player getCpuPlayer() { return cpuPlayer; }
 
     /**
      * set to random players turn
@@ -82,7 +88,9 @@ public class Game implements Serializable {
      * @return
      */
     public Detail endTurn() {
-        if (multipleMoves) {
+        if (cpu && cpuPlayer == turn) {
+            return endTurnSuccessful();
+        } else if (multipleMoves) {
             if (turn == Player.BLUE) {
                 blueMillExists = false;
             } else {
@@ -96,20 +104,34 @@ public class Game implements Serializable {
         } else if (blueMillExists && turn == Player.BLUE && !removed) {
             return Detail.MILL;
         } else {
-            nextTurn();
-            moved = false;
-            removed = false;
-            redMillExists = false;
-            blueMillExists = false;
-            sel = Location.NONE;
-            createRestorePoint();
-            if (cpu && turn == cpuPlayer) cpuMove();
-            return Detail.END_TURN;
+            return endTurnSuccessful();
         }
     }
 
-    private void cpuMove() {
+    private Detail endTurnSuccessful() {
+        nextTurn();
+        moved = false;
+        removed = false;
+        redMillExists = false;
+        blueMillExists = false;
+        sel = Location.NONE;
+        createRestorePoint();
+        return Detail.END_TURN;
+    }
+
+    public void cpuMove() {
         // TODO
+        for (Location i: Location.getInventory(cpuPlayer)) {
+            if (Piece.isPlayers(cpuPlayer, frame.getPieceByLocation(i))) {
+                handleMove(i);
+                for (Location n: Location.getFrame()) {
+                    if (frame.getPieceByLocation(n) == Piece.NONE) {
+                        handleMove(n);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     /**

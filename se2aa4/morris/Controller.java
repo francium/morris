@@ -48,7 +48,7 @@ public class Controller implements Initializable {
 
     // UI elements
     @FXML
-    private Text msgLabelL, msgLabelR;
+    private Text msgLabelL, msgLabelR, redInvLabel, blueInvLabel;
 
     @FXML
     private Button twoPlayerBut, cpuBut;
@@ -106,6 +106,7 @@ public class Controller implements Initializable {
 	@FXML
 	private void processNewGame(ActionEvent event) {
         game.newGame();
+        labelCpuInventory();
         updateMsg(State.IN_PROGRESS);
         draw();
 	}
@@ -132,6 +133,8 @@ public class Controller implements Initializable {
             twoPlayerBut.setDisable(true);
             cpuBut.setDisable(false);
         }
+
+        labelCpuInventory();
         draw();
     }
 
@@ -164,7 +167,9 @@ public class Controller implements Initializable {
 	@FXML
 	private void processEndTurn(ActionEvent event) {
         if (game.getState() == State.UNSTARTED) return;
-        switch (game.endTurn()) {
+        Detail status = game.endTurn();
+        System.out.println("*0 " + game.getTurn());
+        switch (status) {
             case MULTIPLE_MOVES:
                 updateMsg(game.getState(), Detail.MULTIPLE_MOVES);
                 break;
@@ -175,7 +180,10 @@ public class Controller implements Initializable {
                 updateMsg(game.getState(), Detail.OVERLAPPING);
                 break;
             case END_TURN:
+                game.cpuMove();
+                game.endTurn();
                 updateMsg(game.getState(), Detail.CLEAR);
+                draw();
                 break;
             default:
                 //
@@ -352,6 +360,17 @@ public class Controller implements Initializable {
             Circle node = (Circle) getShape(game.getSel());
             node.setFill(COL_GREEN);
         }
+    }
+
+    private void labelCpuInventory() {
+        if (game.getCpu())
+            if (game.getCpuPlayer() == Player.BLUE) {
+                blueInvLabel.setVisible(true);
+                redInvLabel.setVisible(false);
+            } else {
+                blueInvLabel.setVisible(false);
+                redInvLabel.setVisible(true);
+            }
     }
 
     /**

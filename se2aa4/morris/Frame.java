@@ -175,6 +175,7 @@ public class Frame implements Serializable {
             }
         }
 
+        /*j
         System.out.print("new red Mills\t\n");
         for (Location[] mill: redMills) {
             System.out.println("\t" + printMill(mill));
@@ -183,6 +184,7 @@ public class Frame implements Serializable {
         for (Location[] mill: blueMills) {
             System.out.println("\t" + printMill(mill));
         }
+        */
         checkNewMills(redMills, blueMills);
     }
 

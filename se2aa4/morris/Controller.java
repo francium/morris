@@ -124,6 +124,14 @@ public class Controller implements Initializable {
         } else {
             updateMsg(game.getState(), Detail.LOADED);
         }
+
+        if (game.getCpu()) {
+            twoPlayerBut.setDisable(false);
+            cpuBut.setDisable(true);
+        } else {
+            twoPlayerBut.setDisable(true);
+            cpuBut.setDisable(false);
+        }
         draw();
     }
 

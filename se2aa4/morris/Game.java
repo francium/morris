@@ -16,8 +16,9 @@ public class Game implements Serializable {
     // game fields
     private State state, stateBak;
     private Player turn, turnBak;
-    private Location sel, selBak;
+    private Player cpuPlayer, cpuPlayerBak;
     private boolean cpu, cpuBak;
+    private Location sel, selBak;
     private boolean moved, movedBak;
     private boolean multipleMoves, multipleMovesBak;
     private boolean blueMillExists, redMillExists;
@@ -46,7 +47,11 @@ public class Game implements Serializable {
         moved = false;
         removed = false;
         randTurn();
+        randCpuPlayer();
         createRestorePoint();
+
+        if (turn == cpuPlayer) cpuMove();
+        System.out.println("cpu is: " + cpuPlayer);
     }
 
     public boolean getCpu() { return cpu; }
@@ -58,6 +63,10 @@ public class Game implements Serializable {
      */
     private void randTurn() {
         turn = Math.random() > 0.5 ? Player.RED : Player.BLUE;
+    }
+
+    private void randCpuPlayer() {
+        cpuPlayer = Math.random() > 0.5 ? Player.RED : Player.BLUE;
     }
 
     /**
@@ -94,7 +103,7 @@ public class Game implements Serializable {
             blueMillExists = false;
             sel = Location.NONE;
             createRestorePoint();
-            if (cpu) cpuMove();
+            if (cpu && turn == cpuPlayer) cpuMove();
             return Detail.END_TURN;
         }
     }
@@ -207,6 +216,7 @@ public class Game implements Serializable {
      */
     public void createRestorePoint() {
         cpuBak = cpu;
+        cpuPlayerBak = cpuPlayer;
         stateBak = state;
         turnBak = turn;
         selBak = sel;
@@ -223,6 +233,7 @@ public class Game implements Serializable {
      */
     public void restore() {
         cpu = cpuBak;
+        cpuPlayer = cpuPlayerBak;
         state = stateBak;
         turn = turnBak;
         sel = selBak;

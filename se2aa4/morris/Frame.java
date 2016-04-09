@@ -175,11 +175,12 @@ public class Frame implements Serializable {
     }
 
     public void makeMillsOld(Player p) {
-        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\tmaking old");
         if (p == Player.BLUE) {
             blueMills = blueMillsNew;
+            blueMillsNew = new ArrayList<>();
         } else {
             redMills = redMillsNew;
+            redMillsNew = new ArrayList<>();
         }
     }
 
@@ -206,11 +207,11 @@ public class Frame implements Serializable {
             }
         }
 
-        System.out.print("detected mills for " + p + "\t\n");
-        for (Location[] mill: redMills) {
+        for (Location[] mill: mills) {
             System.out.println("\t" + printMill(mill));
         }
         filterNewMills(p, mills);
+        System.out.println("red: " + redMill + "    blue: " + blueMill);
     }
 
     /**
@@ -221,14 +222,11 @@ public class Frame implements Serializable {
     private void filterNewMills(Player p, ArrayList<Location[]> millsNew) {
         ArrayList<Location[]> mills = p == Player.RED ? redMills : blueMills;
 
-        System.out.println("\t\t\t\t\t\tnewMill size = " + millsNew.size());
-        System.out.println("\t\t\t\t\t\toldMill size = " + mills.size());
         for (Location[] tripi: millsNew) {
             boolean newMill = false;
             if (mills.size() > 0) {
                 for (Location[] tripj : mills) {
                     if (!isSameTriplet(tripi, tripj)) {
-                        System.out.println("\t\t\t\t\t\tnew mill");
                         newMill = true;
                     }
                 }
@@ -280,9 +278,9 @@ public class Frame implements Serializable {
 
     /**
      * Do both arrays contain same entries
-     * @param t1
-     * @param t2
-     * @return
+     * @param t1 first triplet
+     * @param t2 second triplet
+     * @return are they same
      */
     private static boolean isSameTriplet(Location[] t1, Location[] t2) {
         for (int i=0; i<t1.length; i++) {

@@ -134,7 +134,7 @@ public class Game implements Serializable {
                         if (frame.getPieceByLocation(n) == Piece.NONE) {
                             if (!Frame.isMoveFly(i, n)) {
                                 handleMove(n);
-                                //handleCpuMill();
+                                handleCpuMill();
                                 return;
                             }
                         }
@@ -254,19 +254,6 @@ public class Game implements Serializable {
                 // player selected own piece
                 sel = l;
             }
-            //TODO refactor this
-            // this else is taken care of by previous if
-            // this is old code, no longer required
-                /*
-            } else {
-                // player selected opponent's piece
-                if (turn == Player.BLUE && blueMillExists) {
-                    sel = l;
-                } else if (turn == Player.RED && redMillExists) {
-                    sel = l;
-                }
-            }
-            */
         }
     }
 
@@ -335,7 +322,7 @@ public class Game implements Serializable {
         frame.checkForMill(turn);
         blueMillExists = frame.isBlueMill();
         redMillExists = frame.isRedMill();
-        System.out.println("red: " + redMillExists + "    blue: " + blueMillExists);
+        //System.out.println("red: " + redMillExists + "    blue: " + blueMillExists);
     }
 
     /**

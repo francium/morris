@@ -56,8 +56,16 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Playing against cpu
+     * @return playing against cpu
+     */
     public boolean getCpu() { return cpu; }
 
+    /**
+     * Play against cpu
+     * @param b enable or disable cpu mode
+     */
     public void setCpu(boolean b) { cpu = b; }
 
     public Player getCpuPlayer() { return cpuPlayer; }
@@ -69,6 +77,9 @@ public class Game implements Serializable {
         turn = Math.random() > 0.5 ? Player.RED : Player.BLUE;
     }
 
+    /**
+     * Set cpu to random player
+     */
     private void randCpuPlayer() {
         cpuPlayer = Math.random() > 0.5 ? Player.RED : Player.BLUE;
     }
@@ -83,7 +94,7 @@ public class Game implements Serializable {
 
     /**
      * end a turn
-     * @return
+     * @return Detail about game
      */
     public Detail endTurn() {
         if (cpu && cpuPlayer == turn) {
@@ -106,6 +117,10 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Logistics for ending a turn
+     * @return Detail about game
+     */
     private Detail endTurnLogic() {
         frame.makeMillsOld(turn);
         nextTurn();
@@ -125,6 +140,9 @@ public class Game implements Serializable {
         return Detail.END_TURN;
     }
 
+    /**
+     * Cpu move logic
+     */
     public void cpuMove() {
         if (frame.isInventoryEmpty(cpuPlayer)) {
             for (Location i : Location.getFrame()) {
@@ -157,6 +175,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Handle a mill created by cpu
+     */
     private void handleCpuMill() {
         if (cpuPlayer == Player.RED) {
             if (frame.isRedMill())
@@ -167,6 +188,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Logic for cpu mill handling
+     */
     private void cpuMillLogic() {
         Location firstMill = null;
         for (AbstractMap.SimpleEntry<Location, Piece> i: frame.getFrame()) {

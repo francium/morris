@@ -23,6 +23,7 @@ public class Frame implements Serializable {
     private ArrayList<Location[]> blueMills, redMills, blueMillsBak, redMillsBak,
                                   blueMillsNew, redMillsNew;
 
+    // possible mill locations
     private Location[][] triplets = {
         {Location.nONW, Location.nON, Location.nONE},
         {Location.nONE, Location.nOE, Location.nOSE},
@@ -85,10 +86,18 @@ public class Frame implements Serializable {
         return pairs;
     }
 
+    /**
+     * Does red player have a mill
+     * @return has a mill
+     */
     public boolean isRedMill() {
         return redMill;
     }
 
+    /**
+     * Does blue player have a mill
+     * @return has a mill
+     */
     public boolean isBlueMill() {
         return blueMill;
     }
@@ -118,6 +127,11 @@ public class Frame implements Serializable {
         }
 	}
 
+    /**
+     * Get number of piece player has on board
+     * @param p player
+     * @return number of pieces
+     */
     public int getNumPieces(Player p) {
         if (p == Player.BLUE)
             return numBluePieces;
@@ -174,6 +188,10 @@ public class Frame implements Serializable {
         return frame.get(l);
     }
 
+    /**
+     * Copy mill to old mill array
+     * @param p player
+     */
     public void makeMillsOld(Player p) {
         if (p == Player.BLUE) {
             blueMills = blueMillsNew;
@@ -245,6 +263,11 @@ public class Frame implements Serializable {
         }
     }
 
+    /**
+     * Is a piece part of a mill
+     * @param l location of piece
+     * @return is it part of mill
+     */
     public boolean isMillPiece(Location l) {
         for (Location[] trip: triplets) {
             for (Location i: trip) {
@@ -260,15 +283,11 @@ public class Frame implements Serializable {
         return false;
     }
 
-    private static String printMill(Location[] a, Location[] b) {
-        String out = "";
-        for (Location i: a) out += i + ", ";
-        out += "\n";
-        for (Location i: b) out += i + ", ";
-        out += "\n";
-        return out;
-    }
-
+    /**
+     * convert a set of locations to a string
+     * @param a locations
+     * @return string represnetation
+     */
     private static String printMill(Location[] a) {
         String out = "";
         for (Location i: a) out += i + ", ";
@@ -348,6 +367,11 @@ public class Frame implements Serializable {
         return false;
     }
 
+    /**
+     * Is move possible for a player
+     * @param p player
+     * @return is move possible
+     */
     public boolean movePossible(Player p){
         for (Map.Entry<Location, Piece> entry : frame.entrySet()){
             boolean playersColor = Piece.isPlayers(p, frame.get(entry.getKey()));
@@ -366,6 +390,11 @@ public class Frame implements Serializable {
     }
 
 
+    /**
+     * Get adjacent locations to a location
+     * @param loc location
+     * @return adjacent locations
+     */
     private ArrayList<Location> getAdjacent(Location loc){
         ArrayList<Location> adjLoc = new ArrayList();
         switch(loc){

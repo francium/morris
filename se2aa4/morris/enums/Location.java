@@ -44,6 +44,10 @@ public enum Location {
         return filtered;
     }
 
+    /**
+     * get board locations
+     * @return
+     */
     public static Location[] getFrame() {
         Location[] filtered = new Location[16];
         int c = 0;
@@ -55,6 +59,11 @@ public enum Location {
         return filtered;
     }
 
+    /**
+     * is a location a inventory location
+     * @param l
+     * @return
+     */
     public static boolean isInventory(Location l) {
         if (l.toString().contains("i")) return true;
         return false;

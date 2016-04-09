@@ -77,6 +77,10 @@ public class Controller implements Initializable {
 
 	}
 
+    /**
+     * Click button to play again cpu
+     * @param event
+     */
     @FXML
     private void processCpu(ActionEvent event) {
         game = new Game();
@@ -88,6 +92,10 @@ public class Controller implements Initializable {
         updateMsg(State.UNSTARTED);
     }
 
+    /**
+     * Click to play against human
+     * @param event
+     */
     @FXML
     private void processTwoPlayer(ActionEvent event) {
         game = new Game();
@@ -365,6 +373,9 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Label cpu's inventory
+     */
     private void labelCpuInventory() {
         if (game.getCpu())
             if (game.getCpuPlayer() == Player.BLUE) {

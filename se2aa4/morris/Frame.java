@@ -20,7 +20,8 @@ public class Frame implements Serializable {
 	private boolean valid, validBak;
 	private Location invalidLocation, invalidLocationBak;
     private boolean redMill, blueMill, redMillBak, blueMillBak;
-    private ArrayList<Location[]> blueMills, redMills, blueMillsBak, redMillsBak;
+    private ArrayList<Location[]> blueMills, redMills, blueMillsBak, redMillsBak,
+                                  blueMillsNew, redMillsNew;
 
     private Location[][] triplets = {
         {Location.nONW, Location.nON, Location.nONE},
@@ -50,6 +51,8 @@ public class Frame implements Serializable {
 
         blueMills = new ArrayList<>();
         redMills = new ArrayList<>();
+        blueMillsNew = new ArrayList<>();
+        redMillsNew = new ArrayList<>();
 
         frame.put(Location.iB0, Piece.B0);
         frame.put(Location.iB1, Piece.B1);
@@ -171,71 +174,66 @@ public class Frame implements Serializable {
         return frame.get(l);
     }
 
+    public void makeMillsOld(Player p) {
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\tmaking old");
+        if (p == Player.BLUE) {
+            blueMills = blueMillsNew;
+        } else {
+            redMills = redMillsNew;
+        }
+    }
+
     /**
      * Check if mill exists for either player
      */
-    public void checkForMill() {
-        ArrayList<Location[]> redMills = new ArrayList<>();
-        ArrayList<Location[]> blueMills = new ArrayList<>();
+    public void checkForMill(Player p) {
+        ArrayList<Location[]> mills;
+        if (p == Player.BLUE)
+            mills = blueMillsNew;
+        else
+            mills = redMillsNew;
+
+        mills.clear();
 
         for (int i=0; i<triplets.length; i++) {
             Location[] trip = triplets[i];
-            if (Piece.isSamePlayer(frame.get(trip[0]),
-                                   frame.get(trip[1]),
-                                   frame.get(trip[2]))) {
-                if (Piece.isPlayers(Player.RED, frame.get(trip[1]))) {
-                    redMills.add(trip);
-                } else {
-                    blueMills.add(trip);
+            if (Piece.isPlayers(p, frame.get(trip[1]))) {
+                if (Piece.isSamePlayer(frame.get(trip[0]),
+                                       frame.get(trip[1]),
+                                       frame.get(trip[2]))) {
+                    mills.add(trip);
                 }
             }
         }
 
-        /*j
-        System.out.print("new red Mills\t\n");
+        System.out.print("detected mills for " + p + "\t\n");
         for (Location[] mill: redMills) {
             System.out.println("\t" + printMill(mill));
         }
-        System.out.print("new blue Mills\t\n");
-        for (Location[] mill: blueMills) {
-            System.out.println("\t" + printMill(mill));
-        }
-        */
-        checkNewMills(redMills, blueMills);
-    }
-
-    /**
-     * Check new mills for both players
-     * @param redMills
-     * @param blueMills
-     */
-    private void checkNewMills(ArrayList<Location[]> redMills,
-                              ArrayList<Location[]> blueMills) {
-        checkNewMills(Player.RED, redMills);
-        checkNewMills(Player.BLUE, blueMills);
+        filterNewMills(p, mills);
     }
 
     /**
      * Check new mill for specific player
      * @param p
-     * @param mills
+     * @param millsNew
      */
-    private void checkNewMills(Player p, ArrayList<Location[]> mills) {
-        ArrayList<Location[]> oldMills = p == Player.RED ? redMills : blueMills;
+    private void filterNewMills(Player p, ArrayList<Location[]> millsNew) {
+        ArrayList<Location[]> mills = p == Player.RED ? redMills : blueMills;
 
-        for (Location[] tripi: mills) {
+        System.out.println("\t\t\t\t\t\tnewMill size = " + millsNew.size());
+        System.out.println("\t\t\t\t\t\toldMill size = " + mills.size());
+        for (Location[] tripi: millsNew) {
             boolean newMill = false;
-            if (oldMills.size() > 0) {
-                oldMills.clear();
-                for (Location[] tripj : oldMills) {
+            if (mills.size() > 0) {
+                for (Location[] tripj : mills) {
                     if (!isSameTriplet(tripi, tripj)) {
+                        System.out.println("\t\t\t\t\t\tnew mill");
                         newMill = true;
                     }
-                    oldMills.add(tripi);
                 }
             } else {
                 newMill = true;
-                oldMills.add(tripi);
             }
 
             if (newMill) {

@@ -179,8 +179,10 @@ public class Controller implements Initializable {
                 updateMsg(game.getState(), Detail.OVERLAPPING);
                 break;
             case END_TURN:
-                game.cpuMove();
-                game.endTurn();
+                if (game.getCpu()) {
+                    game.cpuMove();
+                    game.endTurn();
+                }
                 updateMsg(game.getState(), Detail.CLEAR);
                 draw();
                 break;
@@ -372,6 +374,10 @@ public class Controller implements Initializable {
                 blueInvLabel.setVisible(false);
                 redInvLabel.setVisible(true);
             }
+        else {
+            blueInvLabel.setVisible(false);
+            redInvLabel.setVisible(false);
+        }
     }
 
     /**

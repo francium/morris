@@ -50,7 +50,7 @@ public class Game implements Serializable {
         randCpuPlayer();
         createRestorePoint();
 
-        if (turn == cpuPlayer) {
+        if (cpu && turn == cpuPlayer) {
             cpuMove();
             endTurn();
         }
@@ -107,10 +107,12 @@ public class Game implements Serializable {
     }
 
     private Detail endTurnLogic() {
+        frame.makeMillsOld(turn);
         nextTurn();
 
-        if (!frame.movePossible(turn))
+        if (!frame.movePossible(turn)) {
             state = State.DRAW;
+        }
         else if (frame.getNumPieces(turn) <= 2)
             state = State.WON;
 
@@ -124,15 +126,31 @@ public class Game implements Serializable {
     }
 
     public void cpuMove() {
-        // TODO
-        for (Location i: Location.getInventory(cpuPlayer)) {
-            if (Piece.isPlayers(cpuPlayer, frame.getPieceByLocation(i))) {
-                handleMove(i);
-                for (Location n: Location.getFrame()) {
-                    if (frame.getPieceByLocation(n) == Piece.NONE) {
-                        handleMove(n);
-                        handleCpuMill();
-                        return;
+        if (frame.isInventoryEmpty(cpuPlayer)) {
+            for (Location i : Location.getFrame()) {
+                if (Piece.isPlayers(cpuPlayer, frame.getPieceByLocation(i))) {
+                    handleMove(i);
+                    for (Location n : Location.getFrame()) {
+                        if (frame.getPieceByLocation(n) == Piece.NONE) {
+                            if (!Frame.isMoveFly(i, n)) {
+                                handleMove(n);
+                                //handleCpuMill();
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            for (Location i : Location.getInventory(cpuPlayer)) {
+                if (Piece.isPlayers(cpuPlayer, frame.getPieceByLocation(i))) {
+                    handleMove(i);
+                    for (Location n : Location.getFrame()) {
+                        if (frame.getPieceByLocation(n) == Piece.NONE) {
+                            handleMove(n);
+                            handleCpuMill();
+                            return;
+                        }
                     }
                 }
             }
@@ -141,10 +159,10 @@ public class Game implements Serializable {
 
     private void handleCpuMill() {
         if (cpuPlayer == Player.RED) {
-            if (redMillExists)
+            if (frame.isRedMill())
                 cpuMillLogic();
         } else {
-            if (blueMillExists)
+            if (frame.isBlueMill())
                 cpuMillLogic();
         }
     }
@@ -314,9 +332,10 @@ public class Game implements Serializable {
      * update mill information
      */
     private void updateMillInfo() {
-        frame.checkForMill();
+        frame.checkForMill(turn);
         blueMillExists = frame.isBlueMill();
         redMillExists = frame.isRedMill();
+        System.out.println("red: " + redMillExists + "    blue: " + blueMillExists);
     }
 
     /**

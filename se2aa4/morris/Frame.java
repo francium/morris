@@ -207,11 +207,11 @@ public class Frame implements Serializable {
             }
         }
 
-        for (Location[] mill: mills) {
-            System.out.println("\t" + printMill(mill));
-        }
+        //for (Location[] mill: mills) {
+        //    System.out.println("\t" + printMill(mill));
+        //}
         filterNewMills(p, mills);
-        System.out.println("red: " + redMill + "    blue: " + blueMill);
+        //System.out.println("red: " + redMill + "    blue: " + blueMill);
     }
 
     /**
@@ -366,7 +366,7 @@ public class Frame implements Serializable {
     }
 
 
-    private ArrayList<Location> getAdjacent(Location loc){
+    public ArrayList<Location> getAdjacent(Location loc){
         ArrayList<Location> adjLoc = new ArrayList();
         switch(loc){
             case nONW : adjLoc.add(Location.nON);

@@ -4,6 +4,7 @@ import se2aa4.morris.enums.*;
 
 import java.io.Serializable;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 
 /**
  * Game logic and data
@@ -127,34 +128,69 @@ public class Game implements Serializable {
 
     public void cpuMove() {
         if (frame.isInventoryEmpty(cpuPlayer)) {
-            for (Location i : Location.getFrame()) {
-                if (Piece.isPlayers(cpuPlayer, frame.getPieceByLocation(i))) {
-                    handleMove(i);
-                    for (Location n : Location.getFrame()) {
-                        if (frame.getPieceByLocation(n) == Piece.NONE) {
-                            if (!Frame.isMoveFly(i, n)) {
-                                handleMove(n);
-                                handleCpuMill();
-                                return;
-                            }
-                        }
-                    }
-                }
-            }
+            // move placed pieces
+            Location randomLocation = randomPlacedPiece();
+            Location randomAdjacentLocation = randomAdjacentLocation(randomLocation);
+
+            // select piece;
+            handleMove(randomLocation);
+
+            // move piece;
+            handleMove(randomAdjacentLocation);
+            System.out.println(randomLocation + " to " + randomAdjacentLocation);
+            handleCpuMill();
+            return;
         } else {
+            // move to board
             for (Location i : Location.getInventory(cpuPlayer)) {
-                if (Piece.isPlayers(cpuPlayer, frame.getPieceByLocation(i))) {
+                if (frame.getPieceByLocation(i) != Piece.NONE) {
+                    // select piece;
                     handleMove(i);
-                    for (Location n : Location.getFrame()) {
-                        if (frame.getPieceByLocation(n) == Piece.NONE) {
-                            handleMove(n);
-                            handleCpuMill();
-                            return;
-                        }
-                    }
+
+                    // move piece;
+                    handleMove(randomValidLocation());
+                    handleCpuMill();
+                    return;
                 }
             }
         }
+    }
+
+    private Location randomPlacedPiece() {
+        ArrayList<Location> locs = new ArrayList<>();
+        for (Location l: Location.getFrame()) {
+            if (Piece.isPlayers(cpuPlayer, frame.getPieceByLocation(l))) {
+                locs.add(l);
+            }
+        }
+        int i = (int) (Math.random() * locs.size());
+        return locs.get(i);
+    }
+
+    private Location randomAdjacentLocation(Location m) {
+        ArrayList<Location> locs = frame.getAdjacent(m);
+        System.out.println("adjacent to " + m);
+        for (Location l: locs) {
+            System.out.println("\t\t\t" + l);
+        }
+        int i;
+        while (true) {
+            i = (int) (Math.random() * locs.size());
+            if (frame.getPieceByLocation(locs.get(i)) == Piece.NONE)
+                break;
+        }
+        return locs.get(i);
+    }
+
+    private Location randomValidLocation() {
+        ArrayList<Location> locs = new ArrayList<>();
+        for (Location l: Location.getFrame()) {
+            if (frame.getPieceByLocation(l) == Piece.NONE) {
+                locs.add(l);
+            }
+        }
+        int i = (int) (Math.random() * locs.size());
+        return locs.get(i);
     }
 
     private void handleCpuMill() {
@@ -188,7 +224,8 @@ public class Game implements Serializable {
      * handle piece move logic
      * @param l location on board
      */
-    public void handleMove(Location l) {
+    public boolean handleMove(Location l) {
+        boolean out = false;
         if (sel != Location.NONE && l.toString().contains("n")) {
             if (Piece.isPlayers(turn, frame.getPieceByLocation(l))) {
                 // reselect piece
@@ -204,9 +241,11 @@ public class Game implements Serializable {
                     if (sel.toString().contains("n")) {
                         // selected piece is on board
                         if (l.toString().contains("n")) {
-                            if (!frame.isMoveFly(sel, l)) {
+                            System.out.println("from " + sel + " to " + l + " is fly? " + Frame.isMoveFly(sel, l));
+                            if (!Frame.isMoveFly(sel, l)) {
                                 move(l);
                                 updateMillInfo();
+                                out = true;
                             }
                         }
                     }
@@ -215,6 +254,7 @@ public class Game implements Serializable {
                     if (sel.toString().contains("i")) {
                         move(l);
                         updateMillInfo();
+                        out = true;
                     }
                 }
             }
@@ -232,9 +272,10 @@ public class Game implements Serializable {
                             removed = true;
                             if (1 == 1); // just for fun
                             updateMillInfo();
-                            return;
+                            out = true;
+                            return out;
                         } else {
-                            return;
+                            return out;
                         }
                     } else {
                         if (redMillExists && !removed) {
@@ -242,9 +283,10 @@ public class Game implements Serializable {
                             redMillExists = false;
                             removed = true;
                             updateMillInfo();
-                            return;
+                            out = true;
+                            return out;
                         } else {
-                            return;
+                            return out;
                         }
                     }
                 }
@@ -253,8 +295,10 @@ public class Game implements Serializable {
             if (Piece.isPlayers(turn, frame.getPieceByLocation(l))) {
                 // player selected own piece
                 sel = l;
+                out = true;
             }
         }
+        return out;
     }
 
     /**

@@ -225,11 +225,15 @@ public class Frame implements Serializable {
             }
         }
 
+        /*
         for (Location[] mill: mills) {
             System.out.println("\t" + printMill(mill));
         }
+        */
+
         filterNewMills(p, mills);
-        System.out.println("red: " + redMill + "    blue: " + blueMill);
+
+        //System.out.println("red: " + redMill + "    blue: " + blueMill);
     }
 
     /**

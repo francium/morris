@@ -123,13 +123,18 @@ public class Game implements Serializable {
      */
     private Detail endTurnLogic() {
         frame.makeMillsOld(turn);
+
+        if (frame.getNumPieces(turn) <= 2) {
+            state = State.WON;
+            return Detail.CLEAR;
+        }
+
         nextTurn();
 
         if (!frame.movePossible(turn)) {
             state = State.DRAW;
+            return Detail.CLEAR;
         }
-        else if (frame.getNumPieces(turn) <= 2)
-            state = State.WON;
 
         moved = false;
         removed = false;

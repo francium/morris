@@ -1,1 +1,1 @@
-![Loading](https://raw.githubusercontent.com/francium/morris/master/doc/screenshots/app.png)
+![Loading](https://raw.githubusercontent.com/francium/morris/master/docs/screenshots/app.png)
